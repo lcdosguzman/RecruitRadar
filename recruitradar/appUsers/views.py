@@ -24,9 +24,9 @@ def login_request(request):
                 user = authenticate(username=usuario, password=passw)
 
                 if user is not None:
-                    print("login correcto")
+                    print("login correcto ahora debo ir a curriculos")
                     login(request,user)
-                    return render(request,"appUsers/home.html") 
+                    return render(request,"appCurriculos/admin_home.html") 
                 else:
                     print("no encontrado")
                     return render(request,"appUsers/usercorrecto",{"miFormulario":miFormulario}) 
@@ -60,6 +60,7 @@ def aboutme(request):
 
 def contact(request):
     return render(request,"appUsers/contact.html")
+
 @login_required
 def logout_request(request):
     logout(request)
