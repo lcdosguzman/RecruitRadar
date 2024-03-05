@@ -12,7 +12,12 @@
                     <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Inicio de Sesion</span></h1>
                 </div>
                 <div class="row">
-                        Aqui va el formulario...
+                       <form  action="" method="POST">
+                            {% csrf_token %}
+                            {{miFormulario.as_p}}
+                        
+                            <button type="submit">Iniciar Session</button>
+                       </form>
                 </div>
             </div>
         </section>

@@ -12,7 +12,14 @@
                     <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Registro de Usuario</span></h1>
                 </div>
                 <div class="row">
-                        Aqui va el formulario...
+                    <div class="row">
+                        <form  action="" method="POST">
+                             {% csrf_token %}
+                             {{form.as_p}}
+                         
+                             <button type="submit">Iniciar Session</button>
+                        </form>
+                 </div>
                 </div>
             </div>
         </section>
