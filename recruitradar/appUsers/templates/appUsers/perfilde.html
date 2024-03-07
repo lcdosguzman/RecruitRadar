@@ -1,0 +1,117 @@
+{% extends "AppUsers/base.html" %}
+
+{% load static %}
+
+{% block datosDinamicos %}
+<div class="container px-5 my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">{{nombredeparametro}}</span></h1>
+    </div>
+    <div class="row gx-5 justify-content-center">
+        <div class="col-lg-11 col-xl-9 col-xxl-8">
+              <!-- section add-->
+              <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                  Agregar Nueva Skil
+                </div>
+                <div class="card-body">
+                  <section style="margin-bottom: 50px;">  
+                    {% if miFormulario.errors %}
+                      <div class="alert alert-danger mt-3">
+                        <strong>Error en el formulario:</strong>
+                        {{ miFormulario.non_field_errors }}
+                        {{ miFormulario.cargo.errors }}
+                        {{ miFormulario.empresa.errors }}
+                        {{ miFormulario.fecha_inicio.errors }}
+                        {{ miFormulario.fecha_fin.errors }}
+                      </div>
+                    {% endif %}
+                    <form action="" method="POST" class="mb-3">{% csrf_token %}
+                      <div class="mb-3">
+                        <label for="{{ miFormulario.aptitud.id_for_label }}" class="form-label">{{ miFormulario.aptitud.label }}</label>
+                          {{ miFormulario.aptitud }}
+                      </div>
+                      <div class="mb-3">
+                        <input class="btn btn-primary" type="submit" value="Guardar nuevo skill">
+                      </div>
+                    </form>
+                    {% if resp %}
+                    <div class="alert alert-info" role="alert">
+                      {{resp}}
+                    </div>
+                    {% endif %}
+                  </section>
+                </div>
+              </div>
+             <!-- section search-->
+             <div class="card" style="margin-top: 20px;">
+              <div class="card-header">
+                Buscar Skil (por aptitud)
+              </div>
+              <div class="card-body">
+                <section style="margin-bottom: 50px;">  
+                  <form action="/appUsers/skills/" method="GET" class="mb-3">{% csrf_token %}
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Aptitud a buscar:</label>
+                      <input type="text" class="form-control" name="skill_search" id="skill_search" placeholder="PHP">
+                    </div>
+                    <div class="mb-3">
+                      <input class="btn btn-primary" type="submit" value="Buscar">
+                    </div>
+                  </form>
+                  {% if respSearch %}
+                  <div class="alert alert-info" role="alert">
+                    {{respSearch}}
+                  </div>
+                  {% endif %}
+                  <div class="card-body">
+                    <section>
+                      {% if skillsSearch %}
+                      <table class="table caption-top">
+                          <thead>
+                            <tr>
+                              <th scope="col">Skill</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for r in skillsSearch %}
+                            <tr>
+                              <td>{{r.aptitud}}</td>
+                            </tr>
+                            {% endfor%}
+                          </tbody>
+                      </table>
+                      {% endif %}
+                  </section>
+                </section>
+              </div>
+              </div>
+              <!-- section list-->
+              <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                  Listado de skills agregados
+                </div>
+                <div class="card-body">
+                  <section>
+                    <table class="table caption-top">
+                        <thead>
+                          <tr>
+                            <th scope="col">Skill</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for info in skills %}
+                          <tr>
+                            <td>{{info.aptitud}}</td>
+                          </tr>
+                          {% endfor%}
+                        </tbody>
+                    </table>
+                </section>
+                </div>
+              </div>
+              
+        </div>
+    </div>
+</div>
+{% endblock %}

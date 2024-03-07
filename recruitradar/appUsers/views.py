@@ -305,3 +305,7 @@ def agregarAvatar(request):
     else:
         miFormulario = AvatarFormulario()
         return render(request,"appUsers/avatar.html",{"avatar":avatar,"miFormulario":miFormulario})
+
+def perfilde(request, nombre):
+    # Haz lo que necesites con el nombre recibido en la URL (por ejemplo, renderizar un template)
+    return render(request, "appUsers/perfilde.html", {"nombredeparametro": nombre})
