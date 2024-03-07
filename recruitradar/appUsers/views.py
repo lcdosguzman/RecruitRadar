@@ -24,7 +24,8 @@ def login_request(request):
                 if user is not None:
                     print("login correcto ahora debo ir a curriculos")
                     login(request,user)
-                    return render(request,"appCurriculos/admin_home.html") 
+                    publicacion = Publicacion.objects.all().reverse()[:10]
+                    return render(request,"appUsers/noticias.html",{"publicacion":publicacion,"resp":"","respSearch":""})
                 else:
                     print("no encontrado")
                     return render(request,"appUsers/login",{"miFormulario":miFormulario}) 
@@ -38,14 +39,12 @@ def login_request(request):
 
 def register(request):
     if request.method == 'POST':
-        #form = UserCreationForm(request.POST)
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             form.save()
             return render (request,"appUsers/home.html",{"mensaje":"Usuario Creado"})
     else:
-        #form = UserCreationForm()
         form = UserRegisterForm()
 
     return render(request,"appUsers/registro.html",{"form":form})
@@ -59,10 +58,12 @@ def aboutme(request):
 def contact(request):
     return render(request,"appUsers/contact.html")
 
+# Vistas Limitadas a usuarios Logueados
 @login_required
 def logout_request(request):
     logout(request)
     return render(request,"appUsers/logout.html")
+
 @login_required
 def idiomas(request):
     idiomas = Idiomas.objects.filter(user=request.user)
@@ -87,6 +88,7 @@ def idiomas(request):
         return render(request,"appUsers/idiomas.html",{"idiomas":idiomas,"miFormulario":miFormulario,"idiomaSearch":idiomaSearch,"resp":"","respSearch":respSearch})
 
     return render(request,"appUsers/idiomas.html",{"idiomas":idiomas,"miFormulario":miFormulario,"resp":"","respSearch":""})
+
 @login_required
 def datos_personales(request):
     data_exists = DataUsuario.objects.filter(user=request.user).exists()
@@ -137,7 +139,6 @@ def datos_personales(request):
         })
 
     return render(request,"AppUsers/datosPersonales.html",{"info":data,"miFormulario":miFormulario})
-
 
 @login_required
 def skills(request):
@@ -200,7 +201,7 @@ def publicacion(request):
     return render(request,"appUsers/publicacion.html",{"publicacion":publicacion,"miFormulario":miFormulario,"resp":"","respSearch":""})
 
 @login_required
-def home_self(request):
+def noticias(request):
     if 'news_search' in request.GET:
         search = request.GET['news_search']
         newsSearch = Publicacion.objects.filter(titulo__icontains=search)
@@ -212,6 +213,7 @@ def home_self(request):
     publicacion = Publicacion.objects.all().reverse()[:10]
     return render(request,"appUsers/noticias.html",{"publicacion":publicacion,"resp":"","respSearch":""})
 
+@login_required
 def experiencia(request):
     experiencias = ExperienciaLaboral.objects.filter(user=request.user)
     if request.method == 'POST':
@@ -240,7 +242,9 @@ def experiencia(request):
 
     return render(request,"appUsers/experiencia.html",{"experiencias":experiencias,"miFormulario":miFormulario,"resp":"","respSearch":""})
 
+@login_required
 def estudio(request):
+
     estudios = Educacion.objects.filter(user=request.user)
     if request.method == 'POST':
         miFormulario = EstudioFormulario(request.POST)
@@ -266,3 +270,12 @@ def estudio(request):
         return render(request,"appUsers/educacion.html",{"estudios":estudios,"miFormulario":miFormulario,"estudiosSearch":estudiosSearch,"resp":"","respSearch":respSearch})
 
     return render(request,"appUsers/educacion.html",{"estudios":estudios,"miFormulario":miFormulario,"resp":"","respSearch":""})
+
+@login_required
+def perfil(request):
+    experiencias = ExperienciaLaboral.objects.filter(user=request.user)
+    estudios = Educacion.objects.filter(user=request.user)
+    perfil=DataUsuario.objects.filter(user=request.user)
+    skills = Skills.objects.filter(user=request.user)
+    idiomas = Idiomas.objects.filter(user=request.user)
+    return render(request,"appUsers/perfil.html",{"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills})

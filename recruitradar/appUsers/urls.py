@@ -13,8 +13,8 @@ urlpatterns = [
 
     #path('perfil',views.perfil,name="Perfil"),
     path('datos_personales',views.datos_personales,name="DatosPersonales"),
-    path('noticias',views.home_self,name="Noticias"),
-    path('noticias/',views.home_self,name="Noticias"),
+    path('noticias',views.noticias,name="Noticias"),
+    path('noticias/',views.noticias,name="Noticias"),
     path('idiomas',views.idiomas,name="Idiomas"),
     path('idiomas/',views.idiomas,name="Idiomas"),
     path('skills',views.skills,name="Skills"),
@@ -25,4 +25,5 @@ urlpatterns = [
     path('experiencia/',views.experiencia,name="Experiencia"),
     path('educacion',views.estudio,name="Educacion"),
     path('educacion/',views.estudio,name="Educacion"),
+    path('perfil',views.perfil,name="Perfil"),
 ]
