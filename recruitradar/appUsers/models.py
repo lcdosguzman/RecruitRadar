@@ -4,6 +4,8 @@ from django.db import models
 # Create your models here.
 class DataUsuario(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    nombre = models.CharField(max_length=100,null=True, blank = True)
+    apellido = models.CharField(max_length=100,null=True, blank = True)
     bio = models.CharField(max_length=1000, null=True, blank = True)
     telefono = models.CharField(max_length=100, null=True, blank = True)
     url_twitter = models.CharField(max_length=100,null=True, blank = True)

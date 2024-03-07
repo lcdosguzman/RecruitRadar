@@ -95,7 +95,7 @@ def datos_personales(request):
     if data_exists:
         data = DataUsuario.objects.get(user=request.user)
     else:
-        data= DataUsuario.objects.create(user=request.user,bio="",
+        data= DataUsuario.objects.create(user=request.user,nombre="",apellido="",bio="",
                                          telefono="",
                                          url_twitter="",
                                          url_facebook="",
@@ -109,6 +109,8 @@ def datos_personales(request):
             informacion = miFormulario.cleaned_data
 
             exp = DataUsuario.objects.get(user=request.user)
+            exp.nombre = informacion['nombre']
+            exp.apellido = informacion['apellido']
             exp.bio = informacion['bio']
             exp.telefono = informacion['telefono']
             exp.url_twitter = informacion['url_twitter']
@@ -118,6 +120,8 @@ def datos_personales(request):
             exp.url_linkedin = informacion['url_linkedin']
             exp.save()
             miFormulario = DataUsuarioFormulario(initial={
+            'nombre': informacion['nombre'],
+            'apellido': informacion['apellido'],
             'bio': informacion['bio'],
             'telefono': informacion['telefono'],
             'url_twitter': informacion['url_twitter'],
@@ -129,6 +133,8 @@ def datos_personales(request):
             return render(request,"AppUsers/datosPersonales.html",{"info":data,"miFormulario":miFormulario,"resp":"Datos guardados Correctamente"})
     else:
        miFormulario = DataUsuarioFormulario(initial={
+            'nombre': data.nombre,
+            'apellido': data.apellido,
             'bio': data.bio,
             'telefono': data.telefono,
             'url_twitter': data.url_twitter,

@@ -14,6 +14,8 @@
                 {% if miFormulario.errors %}
                 <div class="alert alert-danger mt-3">
                     <strong>Error en el formulario:</strong>
+                    {{ miFormulario.nombre.errors }}
+                    {{ miFormulario.apellido.errors }}
                     {{ miFormulario.bio.errors }}
                     {{ miFormulario.telefono.errors }}
                     {{ miFormulario.url_facebook.errors }}
@@ -25,7 +27,15 @@
             {% endif %}
 
               <form action="" method="POST" class="mb-3">{% csrf_token %}
-                  <div class="mb-3">
+                <div class="mb-3">
+                  <label for="{{ miFormulario.nombre.id_for_label }}" class="form-label">{{ miFormulario.nombre.label }}</label>
+                  {{ miFormulario.nombre }}
+                </div>
+                <div class="mb-3">
+                  <label for="{{ miFormulario.apellido.id_for_label }}" class="form-label">{{ miFormulario.apellido.label }}</label>
+                  {{ miFormulario.apellido }}
+                </div>
+                <div class="mb-3">
                     <label for="{{ miFormulario.bio.id_for_label }}" class="form-label">{{ miFormulario.bio.label }}</label>
                     {{ miFormulario.bio }}
                   </div>

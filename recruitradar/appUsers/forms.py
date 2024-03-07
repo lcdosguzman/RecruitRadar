@@ -16,6 +16,8 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username','email','password1','password2','last_name','first_name']
 
 class DataUsuarioFormulario(forms.Form):
+    nombre = forms.CharField(label='Nombre', max_length=100,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    apellido = forms.CharField(label='Apellido', max_length=100,widget=forms.TextInput(attrs={'class': 'form-control'}))
     bio = forms.CharField(label='Biografía', max_length=1000,widget=forms.TextInput(attrs={'class': 'form-control'}))
     telefono = forms.CharField(label='Teléfono', max_length=20,widget=forms.TextInput(attrs={'class': 'form-control'}))
     url_facebook = forms.CharField(label='URL facebook', max_length=80,widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -27,6 +29,8 @@ class DataUsuarioFormulario(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
+            'Nombre',
+            'apellido',
             'biografía',
             'telefono',
             'url_facebook',
