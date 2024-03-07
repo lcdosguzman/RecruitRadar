@@ -62,7 +62,7 @@ def contact(request):
 @login_required
 def logout_request(request):
     logout(request)
-    return render(request,"appUsers/logout.html")
+    return home(request)
 
 @login_required
 def idiomas(request):
@@ -279,9 +279,29 @@ def estudio(request):
 
 @login_required
 def perfil(request):
+    
     experiencias = ExperienciaLaboral.objects.filter(user=request.user)
     estudios = Educacion.objects.filter(user=request.user)
-    perfil=DataUsuario.objects.filter(user=request.user)
+    perfil=DataUsuario.objects.get(user=request.user)
+    avatar=Avatar.objects.get(user=request.user)
     skills = Skills.objects.filter(user=request.user)
     idiomas = Idiomas.objects.filter(user=request.user)
-    return render(request,"appUsers/perfil.html",{"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills})
+    return render(request,"appUsers/perfil.html",{"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills,"avatar":avatar.imagen.url})
+
+@login_required
+def agregarAvatar(request):
+    avatar=Avatar.objects.get(user=request.user)
+    if request.method == 'POST':
+        miFormulario = AvatarFormulario(request.POST,request.FILES)
+        if miFormulario.is_valid():
+            informacion = miFormulario.cleaned_data
+            exp = Avatar.objects.get(user=request.user)
+            exp.imagen = informacion['imagen']
+            exp.save()
+            miFormulario = AvatarFormulario
+            return render(request,"appUsers/avatar.html",{"avatar":avatar,"miFormulario":miFormulario,"resp":"Datos guardados Correctamente","respSearch":""})
+        else:
+            return render(request,"appUsers/avatar.html",{"avatar":avatar,"miFormulario":miFormulario,"resp":"Datos No guardados Correctamente","respSearch":""})
+    else:
+        miFormulario = AvatarFormulario()
+        return render(request,"appUsers/avatar.html",{"avatar":avatar,"miFormulario":miFormulario})

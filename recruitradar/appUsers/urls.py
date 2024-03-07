@@ -26,4 +26,5 @@ urlpatterns = [
     path('educacion',views.estudio,name="Educacion"),
     path('educacion/',views.estudio,name="Educacion"),
     path('perfil',views.perfil,name="Perfil"),
+    path('agregarAvatar',views.agregarAvatar,name="AgregarAvatar"),
 ]

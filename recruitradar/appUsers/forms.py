@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django.contrib.auth.models import User
+from .models import Avatar
   
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -14,6 +15,17 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username','email','password1','password2','last_name','first_name']
+
+class AvatarFormulario(forms.ModelForm):
+    class Meta:
+        model = Avatar
+        fields = ['imagen']  # Lista de campos que deseas incluir en el formulario
+
+    def __init__(self, *args, **kwargs):
+        super(AvatarFormulario, self).__init__(*args, **kwargs)
+        # Personaliza los widgets o agrega clases CSS si es necesario
+        self.fields['imagen'].widget.attrs.update({'class': 'form-control-file'})
+
 
 class DataUsuarioFormulario(forms.Form):
     nombre = forms.CharField(label='Nombre', max_length=100,widget=forms.TextInput(attrs={'class': 'form-control'}))

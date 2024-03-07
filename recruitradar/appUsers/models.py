@@ -13,9 +13,14 @@ class DataUsuario(models.Model):
     url_github= models.CharField(max_length=100, null=True, blank = True)
     url_youtube = models.CharField(max_length=100, null=True, blank = True)
     url_linkedin = models.CharField(max_length=100, null=True, blank = True)
-
     def __str__(self):
-        return self.bio
+        return self.nombre
+
+class Avatar(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    imagen = models.ImageField(upload_to='avatares',null=True,blank=True)
+    def __str__(self):
+        return f'{self.user} - {self.imagen}'
     
 class Publicacion(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
