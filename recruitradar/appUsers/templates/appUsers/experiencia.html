@@ -1,0 +1,163 @@
+{% extends "appUsers/base.html" %}
+
+{% load static %}
+
+{% block datosDinamicos %}
+<div class="container px-5 my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Administración de Experiencias Laborales</span></h1>
+    </div>
+    <div class="row gx-5 justify-content-center">
+        <div class="col-lg-11 col-xl-9 col-xxl-8">
+              <!-- Form section-->
+              <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                  Agregar experiencia Laboral
+                </div>
+                <div class="card-body">
+                  <section style="margin-bottom: 50px;">  
+                {% if miFormulario.errors %}
+                <div class="alert alert-danger mt-3">
+                    <strong>Error en el formulario:</strong>
+                    {{ miFormulario.non_field_errors }}
+                    {{ miFormulario.cargo.errors }}
+                    {{ miFormulario.empresa.errors }}
+                    {{ miFormulario.fecha_inicio.errors }}
+                    {{ miFormulario.fecha_fin.errors }}
+                </div>
+            {% endif %}
+
+              <form action="" method="POST" class="mb-3">{% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ miFormulario.cargo.id_for_label }}" class="form-label">{{ miFormulario.cargo.label }}</label>
+                    {{ miFormulario.cargo }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ miFormulario.empresa.id_for_label }}" class="form-label">{{ miFormulario.empresa.label }}</label>
+                    {{ miFormulario.empresa }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ miFormulario.description.id_for_label }}" class="form-label">{{ miFormulario.description.label }}</label>
+                    {{ miFormulario.description }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ miFormulario.pais.id_for_label }}" class="form-label">{{ miFormulario.pais.label }}</label>
+                    {{ miFormulario.pais }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ miFormulario.periodo_inicio.id_for_label }}" class="form-label">{{ miFormulario.periodo_inicio.label }}</label>
+                    {{ miFormulario.periodo_inicio }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ miFormulario.periodo_fin.id_for_label }}" class="form-label">{{ miFormulario.periodo_fin.label }}</label>
+                    {{ miFormulario.periodo_fin }}
+                </div>
+                <div class="mb-3">
+                    <input class="btn btn-primary" type="submit" value="Guardar nueva experiencia">
+                </div>
+              </form>
+              {% if resp %}
+              <div class="alert alert-info" role="alert">
+                {{resp}}
+              </div>
+              {% endif %}
+                  </section>
+                </div>
+              </div>
+               <!-- section search-->
+             <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                  Buscar Experiencia (por descripcion)
+                </div>
+                <div class="card-body">
+                  <section style="margin-bottom: 50px;">  
+                    <form action="/appUsers/experiencia/" method="GET" class="mb-3">{% csrf_token %}
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Experiencia a buscar:</label>
+                        <input type="text" class="form-control" name="text_search" id="text_search" placeholder="Ej:Git">
+                      </div>
+                      <div class="mb-3">
+                        <input class="btn btn-primary" type="submit" value="Buscar">
+                      </div>
+                    </form>
+                    {% if respSearch %}
+                    <div class="alert alert-info" role="alert">
+                      {{respSearch}}
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                      <section>
+                        {% if experienciaSearch %}
+                        <table class="table caption-top">
+                            <thead>
+                              <tr>
+                                <th scope="col">Cargo</th>
+                                    <th scope="col">Empresa</th>
+                                    <th scope="col">Pais</th>
+                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Fecha Inicio</th>
+                                    <th scope="col">Fecha Fin</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                             
+                                {% for r in experienciaSearch %}
+                                <tr>
+                                    <td>{{r.cargo}}</td>
+                                    <td>{{r.empresa}}</td>
+                                    <td>{{r.pais}}</td>
+                                    <td>{{r.description}}</td>
+                                    <td>{{r.periodo_inicio}}</td>
+                                    <td>{{r.periodo_fin}}</td>
+                                </tr>
+                                {% endfor%}
+                              
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </section>
+                  </section>
+                </div>
+                </div>
+               <!-- Experience Section-->
+               <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                  Listado de Experiencias
+                </div>
+                <div class="card-body">
+                    <section>
+                            <table class="table caption-top">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h2 class="text-primary fw-bolder mb-0">Lista de experiencias</h2>
+                                </div>
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Cargo</th>
+                                    <th scope="col">Empresa</th>
+                                    <th scope="col">Pais</th>
+                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Fecha Inicio</th>
+                                    <th scope="col">Fecha Fin</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for exp in experiencias %}
+                                    <tr>
+                                    <td>{{exp.cargo}}</td>
+                                    <td>{{exp.empresa}}</td>
+                                    <td>{{exp.pais}}</td>
+                                    <td>{{exp.description}}</td>
+                                    <td>{{exp.periodo_inicio}}</td>
+                                    <td>{{exp.periodo_fin}}</td>
+                                    </tr>
+                                    {% endfor%}
+                                </tbody>
+                            </table>
+                        </section>
+                </div>
+              </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

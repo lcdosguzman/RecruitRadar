@@ -1,0 +1,128 @@
+{% extends "appUsers/base.html" %}
+
+{% load static %}
+
+{% block datosDinamicos %}
+<div class="container px-5 my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Administración de Idiomas</span></h1>
+    </div>
+    <div class="row gx-5 justify-content-center">
+        <div class="col-lg-11 col-xl-9 col-xxl-8">
+              <!-- Form section-->
+              <div class="card" style="margin-top: 20px;">
+                <div class="card-header" >
+                  Agregar Idioma
+                </div>
+                <div class="card-body">
+                  <section style="margin-bottom: 50px;">  
+                    {% if miFormulario.errors %}
+                    <div class="alert alert-danger mt-3">
+                        <strong>Error en el formulario:</strong>
+                        {{ miFormulario.non_field_errors }}
+                        {{ miFormulario.cargo.errors }}
+                        {{ miFormulario.empresa.errors }}
+                        {{ miFormulario.fecha_inicio.errors }}
+                        {{ miFormulario.fecha_fin.errors }}
+                    </div>
+                {% endif %}
+                  <form action="" method="POST" class="mb-3">{% csrf_token %}
+    
+                    <div class="mb-3">
+                      <label for="{{ miFormulario.idioma.id_for_label }}" class="form-label">{{ miFormulario.idioma.label }}</label>
+                      {{ miFormulario.idioma }}
+                  </div>
+                  <div class="mb-3">
+                      <label for="{{ miFormulario.nivel.id_for_label }}" class="form-label">{{ miFormulario.nivel.label }}</label>
+                      {{ miFormulario.nivel }}
+                  </div>
+                  <div class="mb-3">
+                    <input class="btn btn-primary" type="submit" value="Guardar nuevo idioma">
+                  </div>
+                  </form>
+                  {% if resp %}
+                  <div class="alert alert-info" role="alert">
+                    {{resp}}
+                  </div>
+                  {% endif %}
+                </section>
+                </div>
+              </div>
+              <!-- section search-->
+             <div class="card" style="margin-top: 20px;">
+              <div class="card-header">
+                Buscar Idioma (por idioma)
+              </div>
+              <div class="card-body">
+                <section style="margin-bottom: 50px;">  
+                  <form action="/appUsers/idiomas/" method="GET" class="mb-3">{% csrf_token %}
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Idioma a buscar:</label>
+                      <input type="text" class="form-control" name="text_search" id="text_search" placeholder="Ej:Portugues">
+                    </div>
+                    <div class="mb-3">
+                      <input class="btn btn-primary" type="submit" value="Buscar">
+                    </div>
+                  </form>
+                  {% if respSearch %}
+                  <div class="alert alert-info" role="alert">
+                    {{respSearch}}
+                  </div>
+                  {% endif %}
+                  <div class="card-body">
+                    <section>
+                      {% if idiomaSearch %}
+                      <table class="table caption-top">
+                          <thead>
+                            <tr>
+                              <th scope="col">Idioma</th>
+                              <th scope="col">Nivel</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                           
+                              {% for r in idiomaSearch %}
+                              <tr>
+                                <td>{{r.idioma}}</td>
+                                <td>{{r.nivel}}</td>
+                              </tr>
+                              {% endfor%}
+                            
+                          </tbody>
+                      </table>
+                      {% endif %}
+                  </section>
+                </section>
+              </div>
+              </div>
+               <!-- Experience Section-->
+               <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                  Listado de idiomas
+                </div>
+                <div class="card-body">
+                  <section>
+                    <table class="table caption-top">
+                        <thead>
+                          <tr>
+                            <th scope="col">Idioma</th>
+                            <th scope="col">Nivel</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for info in idiomas %}
+                          <tr>
+                            <td>{{info.idioma}}</td>
+                            <td>{{info.nivel}}</td>
+                          </tr>
+                          {% endfor%}
+                        </tbody>
+                    </table>
+                </section>
+                </div>
+              </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

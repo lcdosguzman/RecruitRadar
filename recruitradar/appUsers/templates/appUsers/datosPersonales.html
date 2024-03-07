@@ -1,0 +1,110 @@
+{% extends "AppUsers/base.html" %}
+
+{% load static %}
+
+{% block datosDinamicos %}
+<div class="container px-5 my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Administración de Perfil</span></h1>
+    </div>
+    <div class="row gx-5 justify-content-center">
+        <div class="col-lg-11 col-xl-9 col-xxl-8">
+              <!-- Form section-->
+              <section style="margin-bottom: 50px;">  
+                {% if miFormulario.errors %}
+                <div class="alert alert-danger mt-3">
+                    <strong>Error en el formulario:</strong>
+                    {{ miFormulario.bio.errors }}
+                    {{ miFormulario.telefono.errors }}
+                    {{ miFormulario.url_facebook.errors }}
+                    {{ miFormulario.url_twitter.errors }}
+                    {{ miFormulario.url_github.errors }}
+                    {{ miFormulario.url_linkedin.errors }}
+                    {{ miFormulario.url_youtube.errors }}
+                </div>
+            {% endif %}
+
+              <form action="" method="POST" class="mb-3">{% csrf_token %}
+                  <div class="mb-3">
+                    <label for="{{ miFormulario.bio.id_for_label }}" class="form-label">{{ miFormulario.bio.label }}</label>
+                    {{ miFormulario.bio }}
+                  </div>
+                  <div class="mb-3">
+                    <label for="{{ miFormulario.telefono.id_for_label }}" class="form-label">{{ miFormulario.telefono.label }}</label>
+                    {{ miFormulario.telefono }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ miFormulario.url_facebook.id_for_label }}" class="form-label">{{ miFormulario.url_facebook.label }}</label>
+                    {{ miFormulario.url_facebook }}
+                </div>
+                  <div class="mb-3">
+                      <label for="{{ miFormulario.url_twitter.id_for_label }}" class="form-label">{{ miFormulario.url_twitter.label }}</label>
+                      {{ miFormulario.url_twitter }}
+                  </div>
+                  <div class="mb-3">
+                      <label for="{{ miFormulario.url_github.id_for_label }}" class="form-label">{{ miFormulario.url_github.label }}</label>
+                      {{ miFormulario.url_github }}
+                  </div>
+                  <div class="mb-3">
+                    <label for="{{ miFormulario.url_linkedin.id_for_label }}" class="form-label">{{ miFormulario.url_linkedin.label }}</label>
+                    {{ miFormulario.url_linkedin }}
+                </div>
+                <div class="mb-3">
+                  <label for="{{ miFormulario.url_youtube.id_for_label }}" class="form-label">{{ miFormulario.url_youtube.label }}</label>
+                  {{ miFormulario.url_youtube }}
+              </div>
+                  <div class="mb-3">
+                    <input class="btn btn-primary" type="submit" value="Guardar datos de Perfil">
+                  </div>
+              </form>
+              {{resp}}
+            </section>
+               <!-- Experience Section-->
+            <section>
+                <table class="table caption-top">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h2 class="text-primary fw-bolder mb-0">Datos de Perfil</h2>
+                    </div>
+                    <thead>
+                      <tr>
+                        <th scope="col">Datos</th>
+                        <th scope="col">Perfil</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Biografía</td>
+                        <td>{{info.bio}}</td>
+                      </tr>
+                      <tr>
+                        <td>Teléfono</td>
+                        <td>{{info.telefono}}</td>
+                      </tr>
+                      <tr>
+                        <td>Facebook</td>
+                        <td>{{info.url_facebook}}</td>
+                      </tr>
+                      <tr>
+                        <td>Twitter</td>
+                        <td>{{info.url_twitter}}</td>
+                      </tr>
+                      <tr>
+                        <td>Github</td>
+                        <td>{{info.url_github}}</td>
+                      </tr>
+                      <tr>
+                        <td>Youtube</td>
+                        <td>{{info.url_youtube}}</td>
+                      </tr>
+                      <tr>
+                        <td>Linkedin</td>
+                        <td>{{info.url_linkedin}}</td>
+                      </tr>
+                    
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

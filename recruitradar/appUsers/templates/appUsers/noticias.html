@@ -1,0 +1,86 @@
+{% extends "AppUsers/base.html" %}
+
+{% load static %}
+
+{% block datosDinamicos %}
+<div class="container px-5 my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Noticias</span></h1>
+    </div>
+    <div class="row gx-5 justify-content-center">
+        <div class="col-lg-11 col-xl-9 col-xxl-8">
+              <!-- section add-->
+             <!-- section search-->
+             <div class="card" style="margin-top: 20px;">
+              <div class="card-header">
+                Buscar Contenido (por titulo)
+              </div>
+              <div class="card-body">
+                <section style="margin-bottom: 50px;">  
+                  <form action="/appUsers/noticias/" method="GET" class="mb-3">{% csrf_token %}
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Titulo a buscar:</label>
+                      <input type="text" class="form-control" name="news_search" id="news_search" placeholder="PHP">
+                    </div>
+                    <div class="mb-3">
+                      <input class="btn btn-primary" type="submit" value="Buscar">
+                    </div>
+                  </form>
+                  {% if respSearch %}
+                  <div class="alert alert-info" role="alert">
+                    {{respSearch}}
+                  </div>
+                  {% endif %}
+                  <div class="card-body">
+                    <section>
+                      {% if newsSearch %}
+                      <table class="table caption-top">
+                          <thead>
+                            <tr>
+                              <th scope="col">Resultados</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for r in newsSearch %}
+                            <tr>
+                              <td>{{r.titulo}}</td>
+                            </tr>
+                            {% endfor%}
+                          </tbody>
+                      </table>
+                      {% endif %}
+                  </section>
+                </section>
+              </div>
+              </div>
+              <!-- section list-->  
+              {% for info in publicacion %}
+              <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                  {{info.titulo}}::Autor {{info.user.username}}
+                </div>
+                <div class="card-body">
+                  <section>
+                    <table class="table caption-top">
+                        <thead>
+                          <tr>
+                            <th scope="col">Titulo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        
+                          <tr>
+                            <td>{{info.contenido}}</td>
+                          </tr>
+                         
+                        </tbody>
+                    </table>
+                </section>
+                </div>
+              </div>
+              {% endfor%}
+              
+        </div>
+    </div>
+</div>
+{% endblock %}

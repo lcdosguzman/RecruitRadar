@@ -4,5 +4,5 @@ from django.contrib.auth.views import *
 
 urlpatterns = [
     #path('',views.home,name="Home"),
-    path('admin_home',views.admin_home,name="Admin_home"),
+    #path('admin_home',views.admin_home,name="Admin_home"),
 ]

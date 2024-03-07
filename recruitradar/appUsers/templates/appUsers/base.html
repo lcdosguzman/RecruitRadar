@@ -31,8 +31,25 @@
                             <li class="nav-item"><a class="nav-link" href="{% url 'Aboutme' %}">Quienes Somos</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'Contact' %}">Contacto</a></li>
                             {% if request.user.is_authenticated %}
-                                <li class="nav-item"><a class="nav-link">User:{{ request.user.username}}</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{% url 'Logout' %}">Salir</a></li>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-danger">{{ request.user.username}}</button>
+                                <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="">Perfil</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'DatosPersonales' %}">Datos Personales</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'Noticias' %}">Noticias</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'Educacion' %}">Educación</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'Experiencia' %}">Experiencia Laboral</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'Idiomas' %}">Idiomas</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'Skills' %}">Skills</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'Publicaciones' %}">Publicaciones</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" href="{% url 'Logout' %}">Salir</a></li>
+                                </ul>
+                              </div>
                             {% else %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'Login' %}">Iniciar Sesión</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{% url 'Register' %}">Registrar</a></li>
