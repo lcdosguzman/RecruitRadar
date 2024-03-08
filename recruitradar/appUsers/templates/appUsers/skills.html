@@ -104,7 +104,7 @@
                           {% for info in skills %}
                           <tr>
                             <td>{{info.aptitud}}</td>
-                            <td><a href="{% url 'EliminaSkills' id=info.id %}">[Eliminar]</a></td>
+                            <td><a href="{% url 'EditaSkills' id=info.id %}">[Editar]</a><a href="{% url 'EliminaSkills' id=info.id %}">[Eliminar]</a></td>
                           </tr>
                           {% endfor%}
                         </tbody>

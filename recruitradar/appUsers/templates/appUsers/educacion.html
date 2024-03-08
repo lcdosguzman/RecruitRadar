@@ -133,6 +133,7 @@
                             <th scope="col">Descripción</th>
                             <th scope="col">Fecha Inicio</th>
                             <th scope="col">Fecha Fin</th>
+                            <th scope="col">Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -144,6 +145,7 @@
                             <td>{{info.description}}</td>
                             <td>{{info.periodo_inicio}}</td>
                             <td>{{info.periodo_fin}}</td>
+                            <td><a href="{% url 'EliminaEducacion' id=info.id %}">[Eliminar]</a></td>
                           </tr>
                           {% endfor%}
                         </tbody>

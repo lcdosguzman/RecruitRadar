@@ -138,6 +138,7 @@
                                     <th scope="col">Descripcion</th>
                                     <th scope="col">Fecha Inicio</th>
                                     <th scope="col">Fecha Fin</th>
+                                    <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -149,6 +150,7 @@
                                     <td>{{exp.description}}</td>
                                     <td>{{exp.periodo_inicio}}</td>
                                     <td>{{exp.periodo_fin}}</td>
+                                    <td><a href="{% url 'EliminaExperiencia' id=exp.id %}">[Eliminar]</a></td>
                                     </tr>
                                     {% endfor%}
                                 </tbody>

@@ -61,6 +61,50 @@ def register(request):
 
     return render(request,"appUsers/registro.html",{"form":form})
 
+
+def editar_usuario(request):
+    resp=""
+    usuario = request.user
+    if request.method == 'POST':
+        form = UserEditForm(request.POST,instance=usuario)
+        if form.is_valid():
+            data = form.cleaned_data
+            usuario.email = data['email']
+            usuario = form.save(commit=False)
+            nueva_contraseña = form.cleaned_data.get('password')
+            if nueva_contraseña:
+                usuario.set_password(nueva_contraseña)
+
+            usuario.save()
+            resp="los datos fueron cambiados"
+        else:
+            resp="datos no validos"
+            form = UserEditForm(initial={'email':usuario.email})
+            return render(request,"appUsers/editarusuario.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = UserEditForm(initial={'email':usuario.email})      
+    return render(request,"appUsers/editarusuario.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+def editar_skills(request,id):
+    resp=""
+    skillsdata = Skills.objects.get(id=id)
+    if request.method == 'POST':
+        form = SkillFormulario(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            skillsdata.aptitud = data['aptitud']
+            skillsdata.save()
+            skills = Skills.objects.filter(user=request.user)
+            return render(request,"appUsers/skills.html",{"skills":skills,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+        else:
+            resp="datos no validos"
+            form = SkillFormulario(initial={'aptitud':skillsdata.aptitud})
+            return render(request,"appUsers/editarskills.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = SkillFormulario(initial={'aptitud':skillsdata.aptitud})      
+    return render(request,"appUsers/editarskills.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+
+
 def registro(request):
     return render(request,"appUsers/registro.html")
 
@@ -69,6 +113,8 @@ def aboutme(request):
 
 def contact(request):
     return render(request,"appUsers/contact.html",{"avatar":request.session.get('foto-avatar', 'none')})
+
+
 
 # Vistas Limitadas a usuarios Logueados
 @login_required
@@ -258,6 +304,29 @@ def eliminar_idioma(request,id):
     
     idiomadata = Idiomas.objects.filter(user=request.user)
     return idiomas(request)
+
+@login_required
+def eliminar_experiencia(request,id):
+    try:
+        data = ExperienciaLaboral.objects.get(id=id)
+        data.delete()
+    except ExperienciaLaboral.DoesNotExist:
+          return experiencia(request)
+    
+    data = ExperienciaLaboral.objects.filter(user=request.user)
+    return experiencia(request)
+
+@login_required
+def eliminar_educacion(request,id):
+    try:
+        data = Educacion.objects.get(id=id)
+        data.delete()
+    except Educacion.DoesNotExist:
+          return estudio(request)
+    
+    data = Educacion.objects.filter(user=request.user)
+    return estudio(request)
+
 
 @login_required
 def noticias(request):
