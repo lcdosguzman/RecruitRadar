@@ -95,29 +95,22 @@
               </div>
               </div>
               <!-- section list-->
-              <div class="card" style="margin-top: 20px;">
-                <div class="card-header">
-                  Listado de publicaciones agregados
+              <section style="margin-top: 40px;">
+                {% for info in publicacion %}
+                <div class="card mb-3" style="margin-top: 40px;">
+                  {% if info.imagen %}
+                  <img src="{{info.imagen.url}}" class="card-img-top" alt="...">
+                  {% else %}
+                  <img src="" class="card-img-top" alt="...">
+                  {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{info.titulo}}</h5>
+                    <p class="card-text">{{info.contenido}}</p>
+                    <p class="card-text"><small class="text-body-secondary">Autor:<a href="{% url 'unperfil' nombre=info.user %}">{{info.user}}</a></small></p>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <section>
-                    <table class="table caption-top">
-                        <thead>
-                          <tr>
-                            <th scope="col">Titulo</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for info in publicacion %}
-                          <tr>
-                            <td>{{info.titulo}}</td>
-                          </tr>
-                          {% endfor%}
-                        </tbody>
-                    </table>
-                </section>
-                </div>
-              </div>
+                {% endfor%}
+              </section>
               
         </div>
     </div>
