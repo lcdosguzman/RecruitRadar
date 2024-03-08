@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
@@ -218,6 +218,46 @@ def publicacion(request):
 
 
     return render(request,"appUsers/publicacion.html",{"publicacion":publicacion,"miFormulario":miFormulario,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
+@login_required
+def eliminar_publicacion(request,id):
+    try:
+        publicacion = Publicacion.objects.get(id=id)
+        publicacion.delete()
+    except Publicacion.DoesNotExist:
+        return render(request, "appUsers/error.html", {"mensaje": "La publicación no existe."})
+    
+    publicaciones = Publicacion.objects.filter(user=request.user)
+    miFormulario = PublicacionFormulario()
+
+    return render(request, "appUsers/publicacion.html", {
+        "publicaciones": publicaciones,
+        "miFormulario": miFormulario,
+        "resp": "",
+        "respSearch": "",
+        "avatar": request.session.get('foto-avatar', 'none')
+    })
+
+@login_required
+def eliminar_skills(request,id):
+    try:
+        skillsdata = Skills.objects.get(id=id)
+        skillsdata.delete()
+    except Skills.DoesNotExist:
+        return skills(request)
+    
+    skillsdata = Skills.objects.filter(user=request.user)
+    return skills(request)
+   
+@login_required
+def eliminar_idioma(request,id):
+    try:
+        idiomadata = Idiomas.objects.get(id=id)
+        idiomadata.delete()
+    except idiomas.DoesNotExist:
+          return idiomas(request)
+    
+    idiomadata = Idiomas.objects.filter(user=request.user)
+    return idiomas(request)
 
 @login_required
 def noticias(request):

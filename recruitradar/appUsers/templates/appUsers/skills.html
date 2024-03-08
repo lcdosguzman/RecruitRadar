@@ -97,12 +97,14 @@
                         <thead>
                           <tr>
                             <th scope="col">Skill</th>
+                            <th scope="col">Accion</th>
                           </tr>
                         </thead>
                         <tbody>
                           {% for info in skills %}
                           <tr>
                             <td>{{info.aptitud}}</td>
+                            <td><a href="{% url 'EliminaSkills' id=info.id %}">[Eliminar]</a></td>
                           </tr>
                           {% endfor%}
                         </tbody>

@@ -107,6 +107,7 @@
                           <tr>
                             <th scope="col">Idioma</th>
                             <th scope="col">Nivel</th>
+                            <th scope="col">Accion</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -114,6 +115,7 @@
                           <tr>
                             <td>{{info.idioma}}</td>
                             <td>{{info.nivel}}</td>
+                            <td><a href="{% url 'EliminaIdioma' id=info.id %}">[Eliminar]</a></td>
                           </tr>
                           {% endfor%}
                         </tbody>
