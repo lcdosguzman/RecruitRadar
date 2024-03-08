@@ -26,14 +26,18 @@
                         {{ miFormulario.fecha_fin.errors }}
                       </div>
                     {% endif %}
-                    <form action="" method="POST" class="mb-3">{% csrf_token %}
+                    <form method="POST" enctype="multipart/form-data" class="mb-3">{% csrf_token %}
                       <div class="mb-3">
-                        <label for="{{ miFormulario.aptitud.id_for_label }}" class="form-label">{{ miFormulario.titulo.label }}</label>
+                        <label for="{{ miFormulario.titulo.id_for_label }}" class="form-label">{{ miFormulario.titulo.label }}</label>
                           {{ miFormulario.titulo }}
                       </div>
                       <div class="mb-3">
-                        <label for="{{ miFormulario.aptitud.id_for_label }}" class="form-label">{{ miFormulario.contenido.label }}</label>
+                        <label for="{{ miFormulario.contenido.id_for_label }}" class="form-label">{{ miFormulario.contenido.label }}</label>
                           {{ miFormulario.contenido }}
+                      </div>
+                      <div class="mb-3">
+                        <label for="{{ miFormulario.imagen.id_for_label }}" class="form-label">{{ miFormulario.imagen.label }}</label>
+                          {{ miFormulario.imagen }}
                       </div>
                       <div class="mb-3">
                         <input class="btn btn-primary" type="submit" value="Guardar nuevo skill">

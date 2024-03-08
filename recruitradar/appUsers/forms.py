@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django.contrib.auth.models import User
-from .models import Avatar
+from .models import Avatar,Publicacion
   
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -51,17 +51,39 @@ class DataUsuarioFormulario(forms.Form):
             Submit('submit', 'Guardar', css_class='btn btn-primary')
         )
 
+
 class PublicacionFormulario(forms.Form):
-    titulo = forms.CharField(label='Titulo', max_length=1000,widget=forms.TextInput(attrs={'class': 'form-control'}))
-    contenido = forms.CharField(label='Contenido', max_length=1000,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    titulo = forms.CharField(label='Titulo', max_length=1000, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    contenido = forms.CharField(label='Contenido', max_length=1000, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    imagen = forms.ImageField(label='Imagen', widget=forms.ClearableFileInput(attrs={'class': 'form-control-file'}))
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            'Titulo',
-            'Contenido',
+            'titulo',
+            'contenido',
+            'imagen',
             Submit('submit', 'Guardar', css_class='btn btn-primary')
         )
+'''
+class PublicacionFormulario(forms.ModelForm):
+    class Meta:
+        model = Publicacion
+        fields = ['titulo', 'contenido', 'imagen']
+
+    def __init__(self, *args, **kwargs):
+        super(PublicacionFormulario, self).__init__(*args, **kwargs)
+        # Personaliza los widgets o agrega clases CSS si es necesario
+        self.fields['imagen'].widget.attrs.update({'class': 'form-control-file'})
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            'titulo',
+            'contenido',
+            'imagen',
+            Submit('submit', 'Guardar', css_class='btn btn-primary')
+        )
+         '''
 class SkillFormulario(forms.Form):
     aptitud = forms.CharField(label='Aptitud', max_length=100,widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ej: Github'}))
     def __init__(self, *args, **kwargs):

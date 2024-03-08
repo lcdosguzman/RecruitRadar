@@ -193,15 +193,16 @@ def publicacion(request):
     publicacion = Publicacion.objects.filter(user=request.user)
  #manejo del post para agregar 
     if request.method == 'POST':
-        miFormulario = PublicacionFormulario(request.POST)
+        miFormulario = PublicacionFormulario(request.POST,request.FILES)
         if miFormulario.is_valid():
             u = User.objects.get(username = request.user)
             informacion = miFormulario.cleaned_data
-            exp = Publicacion(user=u,titulo=informacion['titulo'],contenido=informacion['contenido'])
+            exp = Publicacion(user=u,titulo=informacion['titulo'],contenido=informacion['contenido'],imagen=informacion['imagen'])           
             exp.save()
             miFormulario = PublicacionFormulario()
             return render(request,"appUsers/publicacion.html",{"publicacion":publicacion,"miFormulario":miFormulario,"resp":"Datos guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
         else:
+            print(miFormulario.errors)
             return render(request,"appUsers/publicacion.html",{"publicacion":publicacion,"miFormulario":miFormulario,"resp":"Datos No guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
     else:
         miFormulario = PublicacionFormulario()

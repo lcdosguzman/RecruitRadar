@@ -181,7 +181,11 @@
         <section style="margin-top: 40px;">
           {% for info in publicacion %}
           <div class="card mb-3" style="margin-top: 40px;">
-            <img src="..." class="card-img-top" alt="...">
+            {% if info.imagen %}
+            <img src="{{info.imagen.url}}" class="card-img-top" alt="...">
+            {% else %}
+            <img src="" class="card-img-top" alt="...">
+            {% endif %}
             <div class="card-body">
               <h5 class="card-title">{{info.titulo}}</h5>
               <p class="card-text">{{info.contenido}}</p>
