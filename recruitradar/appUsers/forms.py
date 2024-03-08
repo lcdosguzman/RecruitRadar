@@ -9,12 +9,10 @@ class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
     password1 = forms.CharField(label="Contraseña",widget=forms.PasswordInput)
     password2= forms.CharField(label="Repetir Contraseña",widget=forms.PasswordInput)
-    last_name = forms.CharField(label='Nombre', max_length=100,widget=forms.TextInput)
-    first_name = forms.CharField(label='Apellido', max_length=100,widget=forms.TextInput)
 
     class Meta:
         model = User
-        fields = ['username','email','password1','password2','last_name','first_name']
+        fields = ['username','email','password1','password2']
 
 class AvatarFormulario(forms.ModelForm):
     class Meta:

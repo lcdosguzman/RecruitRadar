@@ -39,8 +39,14 @@ def login_request(request):
     return render(request,"appUsers/login.html",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')}) 
 
 def set_session_foto(request):
-    avatar=Avatar.objects.get(user=request.user)
-    request.session['foto-avatar']=avatar.imagen.url
+   
+    try:
+        avatar = Avatar.objects.get(user=request.user)
+        print(avatar.imagen.url)
+        request.session['foto-avatar'] = avatar.imagen.url
+    except Avatar.DoesNotExist:
+        request.session['foto-avatar'] ="/media/avatares/default.jpg"
+    
     return
 
 def register(request):
@@ -288,30 +294,40 @@ def perfil(request):
     
     experiencias = ExperienciaLaboral.objects.filter(user=request.user)
     estudios = Educacion.objects.filter(user=request.user)
-    perfil=DataUsuario.objects.get(user=request.user)
-    avatar=Avatar.objects.get(user=request.user)
     skills = Skills.objects.filter(user=request.user)
     idiomas = Idiomas.objects.filter(user=request.user)
-    return render(request,"appUsers/perfil.html",{"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills,"avatar":avatar.imagen.url})
+    try:
+        perfil=DataUsuario.objects.get(user=request.user)
+    except DataUsuario.DoesNotExist:
+        perfil=""
+    
+    return render(request,"appUsers/perfil.html",{"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills,"avatar":request.session.get('foto-avatar', 'none')})
 
 @login_required
 def agregarAvatar(request):
-    avatar=Avatar.objects.get(user=request.user)
+ 
     if request.method == 'POST':
         miFormulario = AvatarFormulario(request.POST,request.FILES)
         if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
-            exp = Avatar.objects.get(user=request.user)
-            exp.imagen = informacion['imagen']
-            exp.save()
+
+            try:
+                exp = Avatar.objects.get(user=request.user)
+            except Avatar.DoesNotExist:
+                exp = Avatar(user=request.user, imagen=informacion['imagen'])
+                exp.save()
+            else:
+                exp.imagen = informacion['imagen']
+
+                exp.save()
             set_session_foto(request)
             miFormulario = AvatarFormulario
-            return render(request,"appUsers/avatar.html",{"avatar":avatar,"miFormulario":miFormulario,"resp":"Datos guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
+            return render(request,"appUsers/avatar.html",{"miFormulario":miFormulario,"resp":"Datos guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
         else:
-            return render(request,"appUsers/avatar.html",{"avatar":avatar,"miFormulario":miFormulario,"resp":"Datos No guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
+            return render(request,"appUsers/avatar.html",{"miFormulario":miFormulario,"resp":"Datos No guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
     else:
         miFormulario = AvatarFormulario()
-        return render(request,"appUsers/avatar.html",{"avatar":avatar,"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')})
+        return render(request,"appUsers/avatar.html",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')})
 
 def perfilde(request, nombre):
 
@@ -321,11 +337,18 @@ def perfilde(request, nombre):
         user_id = usuario_encontrado.id
         experiencias = ExperienciaLaboral.objects.filter(user=user_id)
         estudios = Educacion.objects.filter(user=user_id)
-        perfil=DataUsuario.objects.get(user=user_id)
-        avatar=Avatar.objects.get(user=user_id)
         skills = Skills.objects.filter(user=user_id)
         idiomas = Idiomas.objects.filter(user=user_id)
-        return render(request,"appUsers/perfilde.html",{"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills,"avatar":avatar.imagen.url,"enc":"1"})
+        try:
+            avatar=Avatar.objects.get(user=user_id)
+        except Avatar.DoesNotExist:
+            avatar="/media/avatares/default.jpg"
+        try:
+            perfil=DataUsuario.objects.get(user=user_id)
+        except DataUsuario.DoesNotExist:
+            perfil=""
+        print(avatar)    
+        return render(request,"appUsers/perfilde.html",{"foto_avatar":avatar.imagen.url,"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills,"avatar":request.session.get('foto-avatar', 'none'),"enc":"1"})
        
     else:
-        return render(request, "appUsers/perfilde.html", {"nombredeparametro": nombre,"enc":"0","avatar":request.session.get('foto-avatar', 'none')})
+        return render(request, "appUsers/perfilde.html", {"foto_avatar":"","nombredeparametro": nombre,"enc":"0","avatar":request.session.get('foto-avatar', 'none')})

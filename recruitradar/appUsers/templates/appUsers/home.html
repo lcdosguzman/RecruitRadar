@@ -178,30 +178,17 @@
             </div>
         </section>
 
-        <section>
-            <div class="card" style="margin-top: 20px;">
-                <div class="card-header">
-                  Listado de publicaciones agregados
-                </div>
-                <div class="card-body">
-                  <section>
-                    <table class="table caption-top">
-                        <thead>
-                          <tr>
-                            <th scope="col">Titulo</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for info in publicacion %}
-                          <tr>
-                            <td>{{info.titulo}}</td>
-                          </tr>
-                          {% endfor%}
-                        </tbody>
-                    </table>
-                </section>
-                </div>
-              </div>
+        <section style="margin-top: 40px;">
+          {% for info in publicacion %}
+          <div class="card mb-3" style="margin-top: 40px;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{info.titulo}}</h5>
+              <p class="card-text">{{info.contenido}}</p>
+              <p class="card-text"><small class="text-body-secondary">Autor:<a href="{% url 'unperfil' nombre=info.user %}">{{info.user}}</a></small></p>
+            </div>
+          </div>
+          {% endfor%}
         </section>
         
     </div>
