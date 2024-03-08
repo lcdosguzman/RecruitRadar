@@ -26,3 +26,11 @@ El publico es para personas que buscan empleo y reclutdores.
     - Avatar: se creo este modelo para la configuracion de la foto de perfil
     - Se hereda el modelo User para el contro de los usuarios.
  
+## Tomar en Cuenta
+user creado de prueba: simonbguzmanm
+contraseña: 123Rosario
+
+## Me falto completar todos los editar, solo tengo:
+- Idiomas
+- Skills
+- Usuario
