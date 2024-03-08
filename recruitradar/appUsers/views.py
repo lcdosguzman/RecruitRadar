@@ -95,7 +95,8 @@ def editar_skills(request,id):
             skillsdata.aptitud = data['aptitud']
             skillsdata.save()
             skills = Skills.objects.filter(user=request.user)
-            return render(request,"appUsers/skills.html",{"skills":skills,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+            miFormulario = SkillFormulario()
+            return render(request,"appUsers/skills.html",{"miFormulario":miFormulario,"skills":skills,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
         else:
             resp="datos no validos"
             form = SkillFormulario(initial={'aptitud':skillsdata.aptitud})
@@ -103,6 +104,29 @@ def editar_skills(request,id):
     
     form = SkillFormulario(initial={'aptitud':skillsdata.aptitud})      
     return render(request,"appUsers/editarskills.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+
+
+def editar_idioma(request,id):
+    resp=""
+    idiomadata = Idiomas.objects.get(id=id)
+    if request.method == 'POST':
+        form = IdiomaFormulario(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            idiomadata.idioma = data['idioma']
+            idiomadata.nivel = data['nivel']
+            idiomadata.save()
+            idiomas = Idiomas.objects.filter(user=request.user)
+            miFormulario = IdiomaFormulario()
+            return render(request,"appUsers/idiomas.html",{"miFormulario":miFormulario,"idiomas":idiomas,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+        else:
+            resp="datos no validos"
+            form = IdiomaFormulario(initial={'idioma':idiomadata.idioma,'nivel':idiomadata.nivel})
+            return render(request,"appUsers/editaridioma.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = IdiomaFormulario(initial={'idioma':idiomadata.idioma,'nivel':idiomadata.nivel})      
+    return render(request,"appUsers/editaridioma.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+
 
 
 def registro(request):

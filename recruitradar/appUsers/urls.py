@@ -18,6 +18,7 @@ urlpatterns = [
     path('idiomas',views.idiomas,name="Idiomas"),
     path('idiomas/',views.idiomas,name="Idiomas"),
     path('eliminaridioma/<str:id>', views.eliminar_idioma, name='EliminaIdioma'),
+    path('editaridioma/<str:id>', views.editar_idioma, name='EditaIdioma'),
     path('skills',views.skills,name="Skills"),
     path('skills/',views.skills,name="Skills"),
     path('eliminarskills/<str:id>', views.eliminar_skills, name='EliminaSkills'),

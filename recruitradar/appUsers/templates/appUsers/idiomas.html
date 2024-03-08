@@ -115,7 +115,7 @@
                           <tr>
                             <td>{{info.idioma}}</td>
                             <td>{{info.nivel}}</td>
-                            <td><a href="{% url 'EliminaIdioma' id=info.id %}">[Eliminar]</a></td>
+                            <td><a href="{% url 'EditaIdioma' id=info.id %}">[Editar]</a><a href="{% url 'EliminaIdioma' id=info.id %}">[Eliminar]</a></td>
                           </tr>
                           {% endfor%}
                         </tbody>
