@@ -152,7 +152,30 @@ def editar_educacion(request,id):
     form = EstudioFormulario(initial={'institucion':data.institucion,'titulo':data.titulo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})      
     return render(request,"appUsers/editareducacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
-
+def editar_experiencia(request,id):
+    resp=""
+    data= ExperienciaLaboral.objects.get(id=id)
+    if request.method == 'POST':
+        form = ExperienciaFormulario(request.POST)
+        if form.is_valid():
+            dataf = form.cleaned_data
+            data.empresa=dataf['empresa']
+            data.cargo=dataf['cargo']
+            data.description=dataf['description']
+            data.pais=dataf['pais']
+            data.periodo_inicio=dataf['periodo_inicio']
+            data.periodo_fin=dataf['periodo_fin']
+            data.save()
+            exp = ExperienciaLaboral.objects.filter(user=request.user)
+            miFormulario = ExperienciaFormulario()
+            return render(request,"appUsers/experiencia.html",{"miFormulario":miFormulario,"experiencias":exp,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+        else:
+            resp="datos no validos"
+            form = ExperienciaFormulario(initial={'empresa':data.empresa,'cargo':data.cargo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})
+            return render(request,"appUsers/editarexperiencia.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = ExperienciaFormulario(initial={'empresa':data.empresa,'cargo':data.cargo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})      
+    return render(request,"appUsers/editarexperiencia.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
 def registro(request):
     return render(request,"appUsers/registro.html")
