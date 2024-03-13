@@ -145,7 +145,7 @@
                             <td>{{info.description}}</td>
                             <td>{{info.periodo_inicio}}</td>
                             <td>{{info.periodo_fin}}</td>
-                            <td><a href="{% url 'EliminaEducacion' id=info.id %}">[Eliminar]</a></td>
+                            <td><a href="{% url 'EditaEducacion' id=info.id %}">[Editar]</a><a href="{% url 'EliminaEducacion' id=info.id %}">[Eliminar]</a></td>
                           </tr>
                           {% endfor%}
                         </tbody>

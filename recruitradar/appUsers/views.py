@@ -127,6 +127,31 @@ def editar_idioma(request,id):
     form = IdiomaFormulario(initial={'idioma':idiomadata.idioma,'nivel':idiomadata.nivel})      
     return render(request,"appUsers/editaridioma.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
+def editar_educacion(request,id):
+    resp=""
+    data= Educacion.objects.get(id=id)
+    if request.method == 'POST':
+        form = EstudioFormulario(request.POST)
+        if form.is_valid():
+            dataf = form.cleaned_data
+            data.institucion=dataf['institucion']
+            data.titulo=dataf['titulo']
+            data.description=dataf['description']
+            data.pais=dataf['pais']
+            data.periodo_inicio=dataf['periodo_inicio']
+            data.periodo_fin=dataf['periodo_fin']
+            data.save()
+            estudios = Educacion.objects.filter(user=request.user)
+            miFormulario = EstudioFormulario()
+            return render(request,"appUsers/educacion.html",{"miFormulario":miFormulario,"estudios":estudios,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+        else:
+            resp="datos no validos"
+            form = EstudioFormulario(initial={'institucion':data.institucion,'titulo':data.titulo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})
+            return render(request,"appUsers/editareducacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = EstudioFormulario(initial={'institucion':data.institucion,'titulo':data.titulo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})      
+    return render(request,"appUsers/editareducacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+
 
 
 def registro(request):
