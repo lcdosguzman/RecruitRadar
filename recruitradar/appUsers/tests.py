@@ -66,6 +66,3 @@ class TestPerfilView(TestCase):
         self.assertIsNotNone(response.context['perfil'])
         self.assertIsNotNone(response.context['skills'])
         self.assertEqual(response.context['avatar'], 'none')
-
-
-    

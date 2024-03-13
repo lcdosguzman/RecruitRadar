@@ -1,6 +1,7 @@
 from django.urls import path
 from appUsers import views
 from django.contrib.auth.views import LogoutView
+#url
 urlpatterns = [
     path('',views.home,name="Home"),
     path('login',views.login_request,name="Login"),
@@ -11,7 +12,6 @@ urlpatterns = [
     path('aboutme',views.aboutme,name="Aboutme"),
     path('contact',views.contact,name="Contact"),
 
-    #path('perfil',views.perfil,name="Perfil"),
     path('datos_personales',views.datos_personales,name="DatosPersonales"),
     path('noticias',views.noticias,name="Noticias"),
     path('noticias/',views.noticias,name="Noticias"),

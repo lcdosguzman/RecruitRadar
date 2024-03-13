@@ -61,7 +61,6 @@ def register(request):
 
     return render(request,"appUsers/registro.html",{"form":form})
 
-
 def editar_usuario(request):
     resp=""
     usuario = request.user
@@ -207,8 +206,6 @@ def aboutme(request):
 
 def contact(request):
     return render(request,"appUsers/contact.html",{"avatar":request.session.get('foto-avatar', 'none')})
-
-
 
 # Vistas Limitadas a usuarios Logueados
 @login_required
@@ -358,6 +355,7 @@ def publicacion(request):
 
 
     return render(request,"appUsers/publicacion.html",{"publicacion":publicacion,"miFormulario":miFormulario,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
+
 @login_required
 def eliminar_publicacion(request,id):
     try:
@@ -412,7 +410,6 @@ def eliminar_educacion(request,id):
     
     data = Educacion.objects.filter(user=request.user)
     return estudio(request)
-
 
 @login_required
 def noticias(request):
