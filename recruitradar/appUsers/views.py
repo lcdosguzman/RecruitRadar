@@ -105,6 +105,28 @@ def editar_skills(request,id):
     form = SkillFormulario(initial={'aptitud':skillsdata.aptitud})      
     return render(request,"appUsers/editarskills.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
+def editar_publicacion(request,id):
+    resp=""
+    data = Publicacion.objects.get(id=id)
+    if request.method == 'POST':
+        form = PublicacionFormulario(request.POST,request.FILES)
+        print(form)
+        if form.is_valid():
+            dataf = form.cleaned_data
+            data.titulo = dataf['titulo']
+            data.contenido = dataf['contenido']
+            data.imagen = dataf['imagen']
+            data.save()
+            publicaciones = Publicacion.objects.filter(user=request.user)
+            miFormulario = PublicacionFormulario()
+            return render(request,"appUsers/publicacion.html",{"miFormulario":miFormulario,"publicacion":publicaciones,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+        else:
+            resp="datos no validos"
+            form = PublicacionFormulario(initial={'titulo':data.titulo,'contenido':data.contenido,'imagen':data.imagen})
+            return render(request,"appUsers/editarpublicacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = PublicacionFormulario(initial={'titulo':data.titulo,'contenido':data.contenido,'imagen':data.imagen})      
+    return render(request,"appUsers/editarpublicacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
 def editar_idioma(request,id):
     resp=""
@@ -339,22 +361,14 @@ def publicacion(request):
 @login_required
 def eliminar_publicacion(request,id):
     try:
-        publicacion = Publicacion.objects.get(id=id)
-        publicacion.delete()
+        publicacions = Publicacion.objects.get(id=id)
+        publicacions.delete()
     except Publicacion.DoesNotExist:
-        return render(request, "appUsers/error.html", {"mensaje": "La publicación no existe."})
+        return publicacion(request)
     
-    publicaciones = Publicacion.objects.filter(user=request.user)
-    miFormulario = PublicacionFormulario()
-
-    return render(request, "appUsers/publicacion.html", {
-        "publicaciones": publicaciones,
-        "miFormulario": miFormulario,
-        "resp": "",
-        "respSearch": "",
-        "avatar": request.session.get('foto-avatar', 'none')
-    })
-
+    publicacions = Publicacion.objects.filter(user=request.user)
+    return publicacion(request)
+    
 @login_required
 def eliminar_skills(request,id):
     try:
