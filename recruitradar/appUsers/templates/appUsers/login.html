@@ -7,20 +7,34 @@
 <header class="py-5">
     <div class="container px-5 pb-5">
         <section>
-            <div class="container px-3" style="margin-top: 50px;">
-                <div class="text-center mb-5">
-                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Inicio de Sesion</span></h1>
-                </div>
-                <div class="row">
-                       <form  action="" method="POST">
-                            {% csrf_token %}
-                            {{miFormulario.as_p}}
-                        
-                            <button type="submit">Iniciar Session</button>
-                       </form>
+            <div class="container px-3 d-flex justify-content-center" style="margin-top: 50px;">
+                <div>
+                    <div class="text-center mb-5">
+                        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Inicio de Sesión</span></h1>
+                    </div>
+                    <div class="row">
+                        <form action="" method="POST" class="mb-3">{% csrf_token %}
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ miFormulario.username.id_for_label }}" class="form-label">{{ miFormulario.username.label }}</label>
+                                    {{ miFormulario.username }}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="{{ miFormulario.password.id_for_label }}" class="form-label">{{ miFormulario.password.label }}</label>
+                                    {{ miFormulario.password }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex justify-content-end">
+                                <div class="mb-3">
+                                    <input class="btn btn-primary" type="submit" value="Iniciar Sesión">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
+        
         
     </div>
 </header>

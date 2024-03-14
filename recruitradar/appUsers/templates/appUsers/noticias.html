@@ -59,16 +59,16 @@
                 {% for info in publicacion %}
                 <div class="card mb-3" style="margin-top: 40px;">
                   {% if info.imagen %}
-                  <img src="{{info.imagen.url}}" class="card-img-top" alt="...">
+                      <img src="{{ info.imagen.url }}" class="card-img-top img-fluid w-100" alt="...">
                   {% else %}
-                  <img src="" class="card-img-top" alt="...">
+                      <img src="" class="card-img-top img-fluid w-100" alt="...">
                   {% endif %}
                   <div class="card-body">
-                    <h5 class="card-title">{{info.titulo}}</h5>
-                    <p class="card-text">{{info.contenido}}</p>
-                    <p class="card-text"><small class="text-body-secondary">Autor:<a href="{% url 'unperfil' nombre=info.user %}">{{info.user}}</a></small></p>
+                      <h5 class="card-title">{{ info.titulo }}</h5>
+                      <p class="card-text">{{ info.contenido }}</p>
+                      <p class="card-text"><small class="text-body-secondary">Autor: <a href="{% url 'unperfil' nombre=info.user %}">{{ info.user }}</a></small></p>
                   </div>
-                </div>
+              </div>
                 {% endfor%}
               </section>
               
