@@ -1,6 +1,7 @@
 from django.urls import path
 from appUsers import views
 from django.contrib.auth.views import LogoutView
+from django.urls import reverse_lazy
 #url
 urlpatterns = [
     path('',views.home,name="Home"),
@@ -43,5 +44,18 @@ urlpatterns = [
 
     path('perfil',views.perfil,name="Perfil"),
     path('agregarAvatar',views.agregarAvatar,name="AgregarAvatar"),
-    path('perfilde/<str:nombre>', views.perfilde, name='unperfil')
+    path('perfilde/<str:nombre>', views.perfilde, name='unperfil'),
+    
+    path('idioma/', views.IdiomaListView.as_view(), name='idioma_list'),
+    path('idioma/crear/', views.IdiomaCreateView.as_view(), name='idioma_create'),
+    path('idioma/editar/<int:pk>/', views.IdiomaUpdateView.as_view(), name='idioma_update'),
+    path('idioma/eliminar/<int:pk>/', views.IdiomaDeleteView.as_view(), name='idioma_delete'),
+    
 ]
+'''
+path('idioma/list', views.IdiomaList.as_view(), name='List'),
+    path(r'^(?P<pk>\d+)$', views.IdiomaDetalle.as_view(), name='Detail'),
+    path(r'^nuevo$', views.IdiomaCreacion.as_view(), name='New'),
+    path(r'^editar/(?P<pk>\d+)$', views.IdiomaUpdate.as_view(), name='Edit'),
+    path(r'^borrar/(?P<pk>\d+)$', views.IdiomaDelete.as_view(), name='Delete'),
+'''

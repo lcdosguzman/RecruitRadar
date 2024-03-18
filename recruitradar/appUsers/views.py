@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login,logout,authenticate
 from django.http import HttpResponse
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from appUsers.models import *
 from appUsers.forms import *
 
@@ -545,3 +550,78 @@ def perfilde(request, nombre):
        
     else:
         return render(request, "appUsers/perfilde.html", {"foto_avatar":"","nombredeparametro": nombre,"enc":"0","avatar":request.session.get('foto-avatar', 'none')})
+    
+
+ #Listas Basadas en Clases
+
+class IdiomaList(ListView):
+    model = Idiomas
+    template_name = "appUser/idiomas_list.html"
+
+'''
+class IdiomaDetalle(DetailView):
+    model = Idiomas
+    template_name = "appUser/idiomas_detalle.html"
+
+class IdiomaCreacion(CreateView):
+    model = Idiomas
+    success_url_name = "appUser/idioma/list"
+    fields = ['idioma','nivel']
+
+class IdiomaUpdate(UpdateView):
+    model = Idiomas
+    success_url_name = "appUser/idioma/list"
+    fields = ['idioma','nivel']
+
+class IdiomaDelete(DeleteView):
+    model = Idiomas
+    success_url_name = "appUser/idioma/list"
+'''
+
+class IdiomaListView(LoginRequiredMixin, ListView):
+    model = Idiomas
+    template_name = 'appUsers/idiomas_list.html'
+    context_object_name = 'idiomas'
+    def get_queryset(self):
+        return Idiomas.objects.filter(user=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['avatar'] = self.request.session.get('foto-avatar', 'none')
+        return context
+
+class IdiomaCreateView(LoginRequiredMixin, CreateView):
+    model = Idiomas
+    template_name = 'appUsers/idiomas_form.html'
+    fields = ['idioma', 'nivel']
+    success_url = reverse_lazy('idioma_list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['avatar'] = self.request.session.get('foto-avatar', 'none')
+        return context
+
+class IdiomaUpdateView(LoginRequiredMixin, UpdateView):
+    model = Idiomas
+    template_name = 'appUsers/idiomas_form.html'
+    fields = ['idioma', 'nivel']
+    success_url = reverse_lazy('idioma_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['avatar'] = self.request.session.get('foto-avatar', 'none')
+        return context
+
+class IdiomaDeleteView(LoginRequiredMixin, DeleteView):
+    model = Idiomas
+    template_name = 'appUsers/idiomas_confirm_delete.html'
+    success_url = reverse_lazy('idioma_list')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['avatar'] = self.request.session.get('foto-avatar', 'none')
+        context['idioma'] = self.get_object()  # Asegúrate de que 'idioma' sea el nombre de tu objeto en la plantilla
+        return context
