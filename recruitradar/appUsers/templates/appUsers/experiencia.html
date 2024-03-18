@@ -150,7 +150,7 @@
                                     <td>{{exp.description}}</td>
                                     <td>{{exp.periodo_inicio}}</td>
                                     <td>{{exp.periodo_fin}}</td>
-                                    <td><a href="{% url 'EliminaExperiencia' id=exp.id %}">[Eliminar]</a></td>
+                                    <td><a href="{% url 'EditaExperiencia' id=exp.id %}">[Modificar]</a><a href="{% url 'EliminaExperiencia' id=exp.id %}">[Eliminar]</a></td>
                                     </tr>
                                     {% endfor%}
                                 </tbody>

@@ -61,7 +61,6 @@ def register(request):
 
     return render(request,"appUsers/registro.html",{"form":form})
 
-
 def editar_usuario(request):
     resp=""
     usuario = request.user
@@ -105,6 +104,28 @@ def editar_skills(request,id):
     form = SkillFormulario(initial={'aptitud':skillsdata.aptitud})      
     return render(request,"appUsers/editarskills.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
+def editar_publicacion(request,id):
+    resp=""
+    data = Publicacion.objects.get(id=id)
+    if request.method == 'POST':
+        form = PublicacionFormulario(request.POST,request.FILES)
+        print(form)
+        if form.is_valid():
+            dataf = form.cleaned_data
+            data.titulo = dataf['titulo']
+            data.contenido = dataf['contenido']
+            data.imagen = dataf['imagen']
+            data.save()
+            publicaciones = Publicacion.objects.filter(user=request.user)
+            miFormulario = PublicacionFormulario()
+            return render(request,"appUsers/publicacion.html",{"miFormulario":miFormulario,"publicacion":publicaciones,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+        else:
+            resp="datos no validos"
+            form = PublicacionFormulario(initial={'titulo':data.titulo,'contenido':data.contenido,'imagen':data.imagen})
+            return render(request,"appUsers/editarpublicacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = PublicacionFormulario(initial={'titulo':data.titulo,'contenido':data.contenido,'imagen':data.imagen})      
+    return render(request,"appUsers/editarpublicacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
 def editar_idioma(request,id):
     resp=""
@@ -127,7 +148,55 @@ def editar_idioma(request,id):
     form = IdiomaFormulario(initial={'idioma':idiomadata.idioma,'nivel':idiomadata.nivel})      
     return render(request,"appUsers/editaridioma.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
+def editar_educacion(request,id):
+    resp=""
+    data= Educacion.objects.get(id=id)
+    if request.method == 'POST':
+        form = EstudioFormulario(request.POST)
+        if form.is_valid():
+            dataf = form.cleaned_data
+            data.institucion=dataf['institucion']
+            data.titulo=dataf['titulo']
+            data.description=dataf['description']
+            data.pais=dataf['pais']
+            data.periodo_inicio=dataf['periodo_inicio']
+            data.periodo_fin=dataf['periodo_fin']
+            data.save()
+            estudios = Educacion.objects.filter(user=request.user)
+            miFormulario = EstudioFormulario()
+            return render(request,"appUsers/educacion.html",{"miFormulario":miFormulario,"estudios":estudios,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+        else:
+            resp="datos no validos"
+            form = EstudioFormulario(initial={'institucion':data.institucion,'titulo':data.titulo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})
+            return render(request,"appUsers/editareducacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = EstudioFormulario(initial={'institucion':data.institucion,'titulo':data.titulo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})      
+    return render(request,"appUsers/editareducacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
+def editar_experiencia(request,id):
+    resp=""
+    data= ExperienciaLaboral.objects.get(id=id)
+    if request.method == 'POST':
+        form = ExperienciaFormulario(request.POST)
+        if form.is_valid():
+            dataf = form.cleaned_data
+            data.empresa=dataf['empresa']
+            data.cargo=dataf['cargo']
+            data.description=dataf['description']
+            data.pais=dataf['pais']
+            data.periodo_inicio=dataf['periodo_inicio']
+            data.periodo_fin=dataf['periodo_fin']
+            data.save()
+            exp = ExperienciaLaboral.objects.filter(user=request.user)
+            miFormulario = ExperienciaFormulario()
+            return render(request,"appUsers/experiencia.html",{"miFormulario":miFormulario,"experiencias":exp,"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+        else:
+            resp="datos no validos"
+            form = ExperienciaFormulario(initial={'empresa':data.empresa,'cargo':data.cargo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})
+            return render(request,"appUsers/editarexperiencia.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
+    
+    form = ExperienciaFormulario(initial={'empresa':data.empresa,'cargo':data.cargo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})      
+    return render(request,"appUsers/editarexperiencia.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
 def registro(request):
     return render(request,"appUsers/registro.html")
@@ -137,8 +206,6 @@ def aboutme(request):
 
 def contact(request):
     return render(request,"appUsers/contact.html",{"avatar":request.session.get('foto-avatar', 'none')})
-
-
 
 # Vistas Limitadas a usuarios Logueados
 @login_required
@@ -288,25 +355,18 @@ def publicacion(request):
 
 
     return render(request,"appUsers/publicacion.html",{"publicacion":publicacion,"miFormulario":miFormulario,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
+
 @login_required
 def eliminar_publicacion(request,id):
     try:
-        publicacion = Publicacion.objects.get(id=id)
-        publicacion.delete()
+        publicacions = Publicacion.objects.get(id=id)
+        publicacions.delete()
     except Publicacion.DoesNotExist:
-        return render(request, "appUsers/error.html", {"mensaje": "La publicación no existe."})
+        return publicacion(request)
     
-    publicaciones = Publicacion.objects.filter(user=request.user)
-    miFormulario = PublicacionFormulario()
-
-    return render(request, "appUsers/publicacion.html", {
-        "publicaciones": publicaciones,
-        "miFormulario": miFormulario,
-        "resp": "",
-        "respSearch": "",
-        "avatar": request.session.get('foto-avatar', 'none')
-    })
-
+    publicacions = Publicacion.objects.filter(user=request.user)
+    return publicacion(request)
+    
 @login_required
 def eliminar_skills(request,id):
     try:
@@ -350,7 +410,6 @@ def eliminar_educacion(request,id):
     
     data = Educacion.objects.filter(user=request.user)
     return estudio(request)
-
 
 @login_required
 def noticias(request):
