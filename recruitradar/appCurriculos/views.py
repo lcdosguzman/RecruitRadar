@@ -7,3 +7,6 @@ def home(request):
 
 def admin_home(request):
     return render(request,"appCurriculos/admin_home.html")
+
+def otrapp(request):
+    return render(request,"appCurriculos/otrapp.html",{"avatar":request.session.get('foto-avatar', 'none')})

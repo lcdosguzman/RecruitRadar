@@ -48,8 +48,15 @@ urlpatterns = [
     
     path('idioma/', views.IdiomaListView.as_view(), name='idioma_list'),
     path('idioma/crear/', views.IdiomaCreateView.as_view(), name='idioma_create'),
+    path('idioma/<int:pk>/', views.IdiomaDetailView.as_view(), name='idioma_detalle'),
     path('idioma/editar/<int:pk>/', views.IdiomaUpdateView.as_view(), name='idioma_update'),
     path('idioma/eliminar/<int:pk>/', views.IdiomaDeleteView.as_view(), name='idioma_delete'),
+
+    path('skill/', views.SkillListView.as_view(), name='skill_list'),
+    path('skill/crear/', views.SkillCreateView.as_view(), name='skill_create'),
+    path('skill/<int:pk>/', views.SkillDetailView.as_view(), name='skill_detalle'),
+    path('skill/editar/<int:pk>/', views.SkillUpdateView.as_view(), name='skill_update'),
+    path('skill/eliminar/<int:pk>/', views.SkillDeleteView.as_view(), name='skill_delete'),
     
 ]
 '''
