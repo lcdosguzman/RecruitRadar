@@ -447,6 +447,18 @@ def agregarAvatar(request):
         miFormulario = AvatarFormulario()
         return render(request,"appUsers/avatar.html",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')})
 
+@login_required
+def set_session_foto(request):
+   
+    try:
+        avatar = Avatar.objects.get(user=request.user)
+        print(avatar.imagen.url)
+        request.session['foto-avatar'] = avatar.imagen.url
+    except Avatar.DoesNotExist:
+        request.session['foto-avatar'] ="/media/avatares/default.jpg"
+    
+    return
+    
 def perfilde(request, nombre):
 
     usuarios = User.objects.filter(username=nombre)
@@ -471,7 +483,9 @@ def perfilde(request, nombre):
     else:
         return render(request, "appUsers/perfilde.html", {"foto_avatar":"","nombredeparametro": nombre,"enc":"0","avatar":request.session.get('foto-avatar', 'none')})
     
-
+def home(request):
+    publicacion = Publicacion.objects.all().reverse()[:10]
+    return render(request,"appUsers/home.html" ,{"publicacion":publicacion,"avatar":request.session.get('foto-avatar', 'none')})
 
 
 

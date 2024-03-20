@@ -4,6 +4,7 @@ from django.contrib.auth.views import *
 
 urlpatterns = [
     #url publica
+    path('',views.home,name="Home"),
     path('aboutme',views.aboutme,name="Aboutme"),
     path('contact',views.contact,name="Contact"),
     #Datos Personales
