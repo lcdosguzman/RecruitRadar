@@ -17,7 +17,7 @@
               </div>
               <div class="card-body">
                 <section style="margin-bottom: 50px;">  
-                  <form action="/appUsers/noticias/" method="GET" class="mb-3">{% csrf_token %}
+                  <form action="{% url 'NoticiasSearch' %}" method="GET" class="mb-3">{% csrf_token %}
                     <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Titulo a buscar:</label>
                       <input type="text" class="form-control" name="news_search" id="news_search" placeholder="PHP">
