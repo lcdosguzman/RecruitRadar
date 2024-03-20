@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from appUsers.models import *
 from appUsers.forms import *
-from appCurriculos.views import set_session_foto
+from appCurriculos.views import set_session_foto,home
 
 # Create your views here.
 
