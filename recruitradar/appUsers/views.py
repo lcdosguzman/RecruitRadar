@@ -27,7 +27,7 @@ def login_request(request):
                     login(request,user)
                     publicacion = Publicacion.objects.all().reverse()[:10]
                     set_session_foto(request)
-                    return render(request,"appUsers/noticias.html",{"publicacion":publicacion,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
+                    return render(request,"appCurriculos/noticias.html",{"publicacion":publicacion,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
                 else:
                     return render(request,"appUsers/login",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')}) 
             else:
