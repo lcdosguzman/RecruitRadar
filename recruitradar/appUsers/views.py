@@ -16,29 +16,23 @@ from appCurriculos.views import set_session_foto,home
 
 
 def login_request(request):
-    print("intento de login")
     if request.method == 'POST':
             miFormulario = AuthenticationForm(request, data=request.POST)
             if miFormulario.is_valid():
                 usuario = miFormulario.cleaned_data.get('username')
                 passw = miFormulario.cleaned_data.get('password')
-
                 user = authenticate(username=usuario, password=passw)
 
                 if user is not None:
-                    print("login correcto ahora debo ir a curriculos")
                     login(request,user)
                     publicacion = Publicacion.objects.all().reverse()[:10]
                     set_session_foto(request)
                     return render(request,"appUsers/noticias.html",{"publicacion":publicacion,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
                 else:
-                    print("no encontrado")
                     return render(request,"appUsers/login",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')}) 
             else:
-                print("formulario no valido")
                 return render(request,"appUsers/login.html",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')})
      
-    print("primera vez")
     miFormulario = AuthenticationForm()
     return render(request,"appUsers/login.html",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')}) 
 
