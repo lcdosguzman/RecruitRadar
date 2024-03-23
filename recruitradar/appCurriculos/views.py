@@ -12,6 +12,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from appUsers.models import *
 from appUsers.forms import *
+from appCurriculos.models import *
+from appCurriculos.forms import *
 
 # Create your views here.
 def aboutme(request):
@@ -197,7 +199,7 @@ def estudio(request):
 
     if 'text_search' in request.GET:
         search = request.GET['text_search']
-        estudiosSearch = Educacion.objects.filter(description__icontains=search)
+        estudiosSearch = Educacion.objects.filter(description__icontains=search,user=request.user)
         respSearch = "No se encontraron resultados para " + search
         if estudiosSearch.exists():
             respSearch = "Resultados para " + search
@@ -263,7 +265,7 @@ def experiencia(request):
     
     if 'text_search' in request.GET:
         search = request.GET['text_search']
-        experienciaSearch = ExperienciaLaboral.objects.filter(description__icontains=search)
+        experienciaSearch = ExperienciaLaboral.objects.filter(description__icontains=search,user=request.user)
         respSearch = "No se encontraron resultados para " + search
         if experienciaSearch.exists():
             respSearch = "Resultados para " + search
@@ -304,7 +306,7 @@ def publicacion(request):
 #manejo de busquedas 
     if 'pub_search' in request.GET:
         search = request.GET['pub_search']
-        pubSearch = Publicacion.objects.filter(titulo__icontains=search)
+        pubSearch = Publicacion.objects.filter(titulo__icontains=search,user=request.user)
         respSearch = "No se encontraron resultados para " + search
         if pubSearch.exists():
             respSearch = "Resultados para " + search
