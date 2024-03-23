@@ -13,22 +13,31 @@
                 </div>
                 <div class="row">
                     <div class="row">
-                        <u>
+                        <table class="table caption-top">
+                         <thead>
+                            <tr>
+                              <th scope="col">Idiomas</th>
+                              <th scope="col">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
                             {% for idioma in idiomas %}
-                            <li>
-                                {{ idioma.idioma }} - Nivel: {{ idioma.nivel }}
-                                <a href="{% url 'idioma_detalle' idioma.pk %}">Detalle</a>
-                                <a href="{% url 'idioma_update' idioma.pk %}">Modificar</a>
-                                <a href="{% url 'idioma_delete' idioma.pk %}">Eliminar</a>
-                            </li>
-                        {% endfor %}
-                        </u>
-                        
+                            <tr>
+                              <td>{{ idioma.idioma }} - Nivel: {{ idioma.nivel }}</td>
+                              <td><a href="{% url 'idioma_detalle' idioma.pk %}">Detalle</a>-<a href="{% url 'idioma_update' idioma.pk %}">Modificar</a>-<a href="{% url 'idioma_delete' idioma.pk %}">Eliminar</a></td>
+                            </tr>
+                            {% endfor%}
+                          </tbody>
+                        </table>
                  </div>
-                 <li>
+                 <div class="row" style="margin-top: 20px;">
+                     
                     <a href="{% url 'idioma_create' %}">Agregar un Nuevo Idioma</a>
-                </li>
+               
+                 </div>
+                
                 </div>
+
             </div>
         </section>
     </div>

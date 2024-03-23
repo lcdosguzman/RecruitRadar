@@ -9,25 +9,33 @@
         <section>
             <div class="container px-3" style="margin-top: 50px;">
                 <div class="text-center mb-5">
-                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Lista de skill</span></h1>
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Lista de skills</span></h1>
                 </div>
                 <div class="row">
                     <div class="row">
-                        <u>
+                        <table class="table caption-top">
+                         <thead>
+                            <tr>
+                              <th scope="col">Skill</th>
+                              <th scope="col">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
                             {% for aptitud in skills %}
-                            <li>
-                                {{ aptitud.aptitud }}
-                                <a href="{% url 'skill_detalle' aptitud.pk %}">Detalle </a>
-                                <a href="{% url 'skill_update' aptitud.pk %}">Modificar </a>
-                                <a href="{% url 'skill_delete' aptitud.pk %}">Eliminar </a>
-                            </li>
-                        {% endfor %}
-                        </u>
-                        
+                            <tr>
+                              <td>{{ aptitud.aptitud }}</td>
+                              <td><a href="{% url 'skill_detalle' aptitud.pk %}">[Detalle] </a>-<a href="{% url 'skill_update' aptitud.pk %}">[Modificar] </a>-<a href="{% url 'skill_delete' aptitud.pk %}">[Eliminar] </a></td>
+                            </tr>
+                            {% endfor%}
+                          </tbody>
+                        </table>
                  </div>
-                 <li>
-                    <a href="{% url 'skill_create' %}">Agregar un Nuevo Skill</a>
-                </li>
+                 <div class="row" style="margin-top: 20px;">
+                     
+                    <a href="{% url 'skill_create' %}">Agregar una Nueva Skill</a>
+               
+                 </div>
+                
                 </div>
             </div>
         </section>

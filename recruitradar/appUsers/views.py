@@ -29,9 +29,9 @@ def login_request(request):
                     set_session_foto(request)
                     return render(request,"appCurriculos/noticias.html",{"publicacion":publicacion,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
                 else:
-                    return render(request,"appUsers/login",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')}) 
+                    return render(request,"appUsers/login",{"miFormulario":miFormulario,"resp":"Usuario o clave invalida","avatar":request.session.get('foto-avatar', 'none')}) 
             else:
-                return render(request,"appUsers/login.html",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')})
+                return render(request,"appUsers/login.html",{"miFormulario":miFormulario,"resp":"Usuario o clave invalida","avatar":request.session.get('foto-avatar', 'none')})
      
     miFormulario = AuthenticationForm()
     return render(request,"appUsers/login.html",{"miFormulario":miFormulario,"avatar":request.session.get('foto-avatar', 'none')}) 
