@@ -43,8 +43,4 @@ urlpatterns = [
     path('noticias',views.noticias,name="Noticias"),
     path('noticias/',views.noticias,name="NoticiasSearch"),
 
-    
-
-
-    
 ]

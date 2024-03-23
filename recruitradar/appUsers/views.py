@@ -78,13 +78,7 @@ def editar_usuario(request):
     form = UserEditForm(initial={'email':usuario.email})      
     return render(request,"appUsers/editarusuario.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
 
-def registro(request):
-    return render(request,"appUsers/registro.html")
-
-# Vistas Limitadas a usuarios Logueados
 @login_required
 def logout_request(request):
     logout(request)
     return home(request)
-
-    

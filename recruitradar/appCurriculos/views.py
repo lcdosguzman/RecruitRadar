@@ -486,8 +486,3 @@ def perfilde(request, nombre):
 def home(request):
     publicacion = Publicacion.objects.all().reverse()[:10]
     return render(request,"appUsers/home.html" ,{"publicacion":publicacion,"avatar":request.session.get('foto-avatar', 'none')})
-
-
-
-
-
