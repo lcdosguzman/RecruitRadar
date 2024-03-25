@@ -30,6 +30,11 @@
                                 </div>
                             </div>
                         </form>
+                        {% if resp %}
+                        <div class="alert alert-danger" role="alert">
+                            {{resp}}
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

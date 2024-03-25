@@ -30,7 +30,3 @@ El publico es para personas que buscan empleo y reclutdores.
 user creado de prueba: simonbguzmanm
 contraseña: 123Rosario
 
-## Me falto completar todos los editar, solo tengo:
-- Idiomas
-- Skills
-- Usuario

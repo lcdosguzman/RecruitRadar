@@ -9,19 +9,17 @@
         <section>
             <div class="container px-3" style="margin-top: 50px;">
                 <div class="text-center mb-5">
-                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Actualizacion de Avatar</span></h1>
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Detalle Idioma</span></h1>
                 </div>
                 <div class="row">
-                       <form  method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{miFormulario.as_p}}
-
-                            <button type="submit">Actualizar</button>
-                       </form>
+                    <div class="row">
+                        <p>Idioma:<i>{{idioma.idioma}}</i></p>
+                        <p>Nivel:<i>{{idioma.nivel}}</i></p>
+                        <p><a href="{% url 'idioma_list' %}">Regresar</a></p>
+                    </div>
                 </div>
             </div>
         </section>
-        
     </div>
 </header>
 

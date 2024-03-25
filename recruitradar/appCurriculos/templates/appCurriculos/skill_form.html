@@ -9,16 +9,19 @@
         <section>
             <div class="container px-3" style="margin-top: 50px;">
                 <div class="text-center mb-5">
-                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Contacto</span></h1>
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Formulario ISkill</span></h1>
                 </div>
                 <div class="row">
                     <div class="row">
-                        <h2 class="display-8 fw-bolder"><span class="text-gradient d-inline">Contacta con simonbguzmanm@gmail.com</span></h2>
-                   </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit">Guardar</button>
+                        </form>
+                 </div>
                 </div>
             </div>
         </section>
-        
     </div>
 </header>
 

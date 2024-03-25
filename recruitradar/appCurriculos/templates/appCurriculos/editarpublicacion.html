@@ -9,11 +9,11 @@
         <section>
             <div class="container px-3" style="margin-top: 50px;">
                 <div class="text-center mb-5">
-                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Editar Experiencia></span></h1>
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Editar Publicacion</span></h1>
                 </div>
                 <div class="row">
                     <div class="row">
-                        <form  action="" method="POST">
+                        <form  action="" method="POST" enctype="multipart/form-data">
                              {% csrf_token %}
                              {{form.as_table}}
                          

@@ -1,0 +1,25 @@
+{% extends "appUsers/base.html" %}
+
+{% load static %}
+
+{% block datosDinamicos %}
+<!-- Header-->
+<header class="py-5">
+    <div class="container px-5 pb-5">
+        <section>
+            <div class="container px-3" style="margin-top: 50px;">
+                <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Detalle Skill</span></h1>
+                </div>
+                <div class="row">
+                    <div class="row">
+                        <p>Skill:<i>{{skill.aptitud}}</i></p>
+                        <p><a href="{% url 'skill_list' %}">Regresar</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</header>
+
+{% endblock %}

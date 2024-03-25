@@ -71,7 +71,7 @@
                 </div>
                 <div class="card-body">
                   <section style="margin-bottom: 50px;">  
-                    <form action="/appUsers/experiencia/" method="GET" class="mb-3">{% csrf_token %}
+                    <form action="{% url 'ExperienciaSearch' %}" method="GET" class="mb-3">{% csrf_token %}
                       <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Experiencia a buscar:</label>
                         <input type="text" class="form-control" name="text_search" id="text_search" placeholder="Ej:Git">

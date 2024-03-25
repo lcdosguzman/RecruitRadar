@@ -1,0 +1,46 @@
+{% extends "appUsers/base.html" %}
+
+{% load static %}
+
+{% block datosDinamicos %}
+<!-- Header-->
+<header class="py-5">
+    <div class="container px-5 pb-5">
+        <section>
+            <div class="container px-3" style="margin-top: 50px;">
+                <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Idioma List</span></h1>
+                </div>
+                <div class="row">
+                    <div class="row">
+                        <table class="table caption-top">
+                         <thead>
+                            <tr>
+                              <th scope="col">Idiomas</th>
+                              <th scope="col">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for idioma in idiomas %}
+                            <tr>
+                              <td>{{ idioma.idioma }} - Nivel: {{ idioma.nivel }}</td>
+                              <td><a href="{% url 'idioma_detalle' idioma.pk %}">Detalle</a>-<a href="{% url 'idioma_update' idioma.pk %}">Modificar</a>-<a href="{% url 'idioma_delete' idioma.pk %}">Eliminar</a></td>
+                            </tr>
+                            {% endfor%}
+                          </tbody>
+                        </table>
+                 </div>
+                 <div class="row" style="margin-top: 20px;">
+                     
+                    <a href="{% url 'idioma_create' %}">Agregar un Nuevo Idioma</a>
+               
+                 </div>
+                
+                </div>
+
+            </div>
+        </section>
+    </div>
+</header>
+
+{% endblock %}
