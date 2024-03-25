@@ -42,7 +42,7 @@ def register(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             form.save()
-            return render (request,"appUsers/home.html",{"mensaje":"Usuario Creado"})
+            return render (request,"appCurriculos/home.html",{"mensaje":"Usuario Creado"})
     else:
         form = UserRegisterForm()
 
