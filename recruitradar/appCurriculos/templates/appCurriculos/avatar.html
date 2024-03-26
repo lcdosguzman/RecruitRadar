@@ -18,6 +18,11 @@
 
                             <button type="submit">Actualizar</button>
                        </form>
+                       {% if resp %}
+                  <div class="alert alert-info" role="alert">
+                    {{resp}}
+                  </div>
+                  {% endif %}
                 </div>
             </div>
         </section>

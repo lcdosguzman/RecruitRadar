@@ -430,6 +430,9 @@ def agregarAvatar(request):
         miFormulario = AvatarFormulario(request.POST,request.FILES)
         if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
+            imagen = informacion.get('imagen') 
+            if not imagen:  
+                return render(request, "appCurriculos/avatar.html", {"miFormulario": miFormulario, "resp": "Por favor, seleccione una imagen", "respSearch": "", "avatar": request.session.get('foto-avatar', 'none')})
 
             try:
                 exp = Avatar.objects.get(user=request.user)

@@ -1,10 +1,9 @@
+# Create your tests here.
 # tests.py
 from django.test import TestCase, Client
 from django.urls import reverse
 from .models import ExperienciaLaboral, Educacion, Skills, Idiomas, DataUsuario
 from django.contrib.auth.models import User
-from .models import Idiomas
-
 from django.contrib.auth.models import User
 
 class TestLoginRequestView(TestCase):
