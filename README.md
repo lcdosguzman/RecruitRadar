@@ -38,6 +38,8 @@ Para ambos se manejo el CRUD completo. Agregar, modificar, eliminar y ver detall
 
  - **Archivo de Pruebas** La hoja de cálculo con las pruebas estan dentro del repositorio. Al mismo nivel que el README.
 
+  - **Video Demo** Puede Verlo acá: https://drive.google.com/file/d/1O5DHaRvrUlsiFemOIy0kcIcjEhp7nMRr/view?usp=sharing
+
 
 ## Tomar en Cuenta
 User de prueba1
