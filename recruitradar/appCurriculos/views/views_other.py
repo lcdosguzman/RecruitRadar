@@ -22,199 +22,33 @@ def aboutme(request):
 def contact(request):
     return render(request,"appCurriculos/contact.html",{"avatar":request.session.get('foto-avatar', 'none')})
 
-class IdiomaListView(LoginRequiredMixin, ListView):
-    model = Idiomas
-    template_name = 'appCurriculos/idiomas_list.html'
-    context_object_name = 'idiomas'
-    def get_queryset(self):
-        return Idiomas.objects.filter(user=self.request.user)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['avatar'] = self.request.session.get('foto-avatar', 'none')
-        return context
+def perfilde(request, nombre):
 
-class IdiomaCreateView(LoginRequiredMixin, CreateView):
-    model = Idiomas
-    template_name = 'appCurriculos/idiomas_form.html'
-    fields = ['idioma', 'nivel']
-    success_url = reverse_lazy('idioma_list')
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['avatar'] = self.request.session.get('foto-avatar', 'none')
-        return context
-
-class IdiomaUpdateView(LoginRequiredMixin, UpdateView):
-    model = Idiomas
-    template_name = 'appCurriculos/idiomas_form.html'
-    fields = ['idioma', 'nivel']
-    success_url = reverse_lazy('idioma_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['avatar'] = self.request.session.get('foto-avatar', 'none')
-        return context
-
-class IdiomaDeleteView(LoginRequiredMixin, DeleteView):
-    model = Idiomas
-    template_name = 'appCurriculos/idiomas_confirm_delete.html'
-    success_url = reverse_lazy('idioma_list')
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['avatar'] = self.request.session.get('foto-avatar', 'none')
-        context['idioma'] = self.get_object()  # Asegúrate de que 'idioma' sea el nombre de tu objeto en la plantilla
-        return context
-    
-class IdiomaDetailView(LoginRequiredMixin,DetailView):
-    model = Idiomas
-    template_name = 'appCurriculos/idiomas_detalle.html'
-    context_object_name = 'idioma'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['avatar'] = self.request.session.get('foto-avatar', 'none')
-        return context
-
-class IdiomaList(ListView):
-    model = Idiomas
-    template_name = "appCurriculos/idiomas_list.html"  
-
-@login_required
-def editar_educacion(request,id):
-    resp=""
-    data= Educacion.objects.get(id=id)
-    if request.method == 'POST':
-        form = EstudioFormulario(request.POST)
-        if form.is_valid():
-            dataf = form.cleaned_data
-            data.institucion=dataf['institucion']
-            data.titulo=dataf['titulo']
-            data.description=dataf['description']
-            data.pais=dataf['pais']
-            data.periodo_inicio=dataf['periodo_inicio']
-            data.periodo_fin=dataf['periodo_fin']
-            data.save()
-            estudios = Educacion.objects.filter(user=request.user)
-            miFormulario = EstudioFormulario()
-            return redirect('Educacion')
-        else:
-            resp="datos no validos"
-            form = EstudioFormulario(initial={'institucion':data.institucion,'titulo':data.titulo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})
-            return render(request,"appCurriculos/editareducacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
-    
-    form = EstudioFormulario(initial={'institucion':data.institucion,'titulo':data.titulo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})      
-    return render(request,"appCurriculos/editareducacion.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
-
-@login_required
-def eliminar_educacion(request,id):
-    try:
-        data = Educacion.objects.get(id=id)
-        data.delete()
-    except Educacion.DoesNotExist:
-          return redirect('Educacion')
-    
-    data = Educacion.objects.filter(user=request.user)
-    return redirect('Educacion')
-
-@login_required
-def estudio(request):
-
-    estudios = Educacion.objects.filter(user=request.user)
-    if request.method == 'POST':
-        miFormulario = EstudioFormulario(request.POST)
-        print(miFormulario)
-        if miFormulario.is_valid():
-                u = User.objects.get(username = request.user)
-                informacion = miFormulario.cleaned_data
-                exp = Educacion(user=u,institucion=informacion['institucion'],titulo=informacion['titulo'],periodo_fin=int(informacion['periodo_fin']),periodo_inicio=int(informacion['periodo_inicio']),description=informacion['description'],pais=informacion['pais'])
-                exp.save()
-                miFormulario = EstudioFormulario()
-                return render(request,"appCurriculos/educacion.html",{"estudios":estudios,"miFormulario":miFormulario,"resp":"Datos guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
-        else:
-          return render(request,"appCurriculos/educacion.html",{"estudios":estudios,"miFormulario":miFormulario,"resp":"Datos no guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
+    usuarios = User.objects.filter(username=nombre)
+    if usuarios.exists():
+        usuario_encontrado = usuarios.first()
+        user_id = usuario_encontrado.id
+        experiencias = ExperienciaLaboral.objects.filter(user=user_id)
+        estudios = Educacion.objects.filter(user=user_id)
+        skills = Skills.objects.filter(user=user_id)
+        idiomas = Idiomas.objects.filter(user=user_id)
+        try:
+            avatar=Avatar.objects.get(user=user_id)
+        except Avatar.DoesNotExist:
+            avatar="/media/avatares/default.jpg"
+        try:
+            perfil=DataUsuario.objects.get(user=user_id)
+        except DataUsuario.DoesNotExist:
+            perfil=""
+        print(avatar)    
+        return render(request,"appCurriculos/perfilde.html",{"foto_avatar":avatar.imagen.url,"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills,"avatar":request.session.get('foto-avatar', 'none'),"enc":"1"})
+       
     else:
-        miFormulario = EstudioFormulario()
-
-    if 'text_search' in request.GET:
-        search = request.GET['text_search']
-        estudiosSearch = Educacion.objects.filter(description__icontains=search,user=request.user)
-        respSearch = "No se encontraron resultados para " + search
-        if estudiosSearch.exists():
-            respSearch = "Resultados para " + search
-        return render(request,"appCurriculos/educacion.html",{"estudios":estudios,"miFormulario":miFormulario,"estudiosSearch":estudiosSearch,"resp":"","respSearch":respSearch,"avatar":request.session.get('foto-avatar', 'none')})
-
-    return render(request,"appCurriculos/educacion.html",{"estudios":estudios,"miFormulario":miFormulario,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
-
-@login_required
-def eliminar_experiencia(request,id):
-    try:
-        data = ExperienciaLaboral.objects.get(id=id)
-        data.delete()
-    except ExperienciaLaboral.DoesNotExist:
-          return redirect('Experiencia')
+        return render(request, "appCurriculos/perfilde.html", {"foto_avatar":"","nombredeparametro": nombre,"enc":"0","avatar":request.session.get('foto-avatar', 'none')})
     
-    data = ExperienciaLaboral.objects.filter(user=request.user)
-    return redirect('Experiencia')
-
-@login_required
-def editar_experiencia(request,id):
-    resp=""
-    data= ExperienciaLaboral.objects.get(id=id)
-    if request.method == 'POST':
-        form = ExperienciaFormulario(request.POST)
-        if form.is_valid():
-            dataf = form.cleaned_data
-            data.empresa=dataf['empresa']
-            data.cargo=dataf['cargo']
-            data.description=dataf['description']
-            data.pais=dataf['pais']
-            data.periodo_inicio=dataf['periodo_inicio']
-            data.periodo_fin=dataf['periodo_fin']
-            data.save()
-            exp = ExperienciaLaboral.objects.filter(user=request.user)
-            miFormulario = ExperienciaFormulario()
-            return redirect('Experiencia')
-        else:
-            resp="datos no validos"
-            form = ExperienciaFormulario(initial={'empresa':data.empresa,'cargo':data.cargo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})
-            return render(request,"appCurriculos/editarexperiencia.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
-    
-    form = ExperienciaFormulario(initial={'empresa':data.empresa,'cargo':data.cargo,'description':data.description,'pais':data.pais,'periodo_inicio':data.periodo_inicio,'periodo_fin':data.periodo_fin})      
-    return render(request,"appCurriculos/editarexperiencia.html",{"resp":resp,"form":form,"avatar":request.session.get('foto-avatar', 'none')})
-
-@login_required
-def experiencia(request):
-    experiencias = ExperienciaLaboral.objects.filter(user=request.user)
-    if request.method == 'POST':
-        miFormulario = ExperienciaFormulario(request.POST)
-        print(miFormulario)
-        if miFormulario.is_valid():
-            if 'periodo_inicio'in request.POST:
-                u = User.objects.get(username = request.user)
-                informacion = miFormulario.cleaned_data
-                exp = ExperienciaLaboral (user=u,cargo=informacion['cargo'],empresa=informacion['empresa'],periodo_fin=informacion['periodo_fin'],periodo_inicio=informacion['periodo_inicio'],description=informacion['description'],pais=informacion['pais'])
-                exp.save()
-                miFormulario = ExperienciaFormulario()
-                return render(request,"appCurriculos/experiencia.html",{"experiencias":experiencias,"miFormulario":miFormulario,"resp":"Datos guardados Correctamente","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
-            else:
-                return render(request,"appCurriculos/experiencia.html",{"experiencias":experiencias,"miFormulario":miFormulario,"resp":"Datos No Guardados","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
-    else:
-        miFormulario = ExperienciaFormulario()
-    
-    if 'text_search' in request.GET:
-        search = request.GET['text_search']
-        experienciaSearch = ExperienciaLaboral.objects.filter(description__icontains=search,user=request.user)
-        respSearch = "No se encontraron resultados para " + search
-        if experienciaSearch.exists():
-            respSearch = "Resultados para " + search
-        return render(request,"appCurriculos/experiencia.html",{"experiencias":experiencias,"miFormulario":miFormulario,"experienciaSearch":experienciaSearch,"resp":"","respSearch":respSearch,"avatar":request.session.get('foto-avatar', 'none')})
-
-    return render(request,"appCurriculos/experiencia.html",{"experiencias":experiencias,"miFormulario":miFormulario,"resp":"","respSearch":"","avatar":request.session.get('foto-avatar', 'none')})
+def home(request):
+    publicacion = Publicacion.objects.all().reverse()[:10]
+    return render(request,"appCurriculos/home.html" ,{"publicacion":publicacion,"avatar":request.session.get('foto-avatar', 'none')})
 
 @login_required
 def eliminar_publicacion(request,id):
@@ -407,30 +241,3 @@ def set_session_foto(request):
     
     return
     
-def perfilde(request, nombre):
-
-    usuarios = User.objects.filter(username=nombre)
-    if usuarios.exists():
-        usuario_encontrado = usuarios.first()
-        user_id = usuario_encontrado.id
-        experiencias = ExperienciaLaboral.objects.filter(user=user_id)
-        estudios = Educacion.objects.filter(user=user_id)
-        skills = Skills.objects.filter(user=user_id)
-        idiomas = Idiomas.objects.filter(user=user_id)
-        try:
-            avatar=Avatar.objects.get(user=user_id)
-        except Avatar.DoesNotExist:
-            avatar="/media/avatares/default.jpg"
-        try:
-            perfil=DataUsuario.objects.get(user=user_id)
-        except DataUsuario.DoesNotExist:
-            perfil=""
-        print(avatar)    
-        return render(request,"appCurriculos/perfilde.html",{"foto_avatar":avatar.imagen.url,"experiencias":experiencias,"estudios":estudios,"idiomas":idiomas,"perfil":perfil,"skills":skills,"avatar":request.session.get('foto-avatar', 'none'),"enc":"1"})
-       
-    else:
-        return render(request, "appCurriculos/perfilde.html", {"foto_avatar":"","nombredeparametro": nombre,"enc":"0","avatar":request.session.get('foto-avatar', 'none')})
-    
-def home(request):
-    publicacion = Publicacion.objects.all().reverse()[:10]
-    return render(request,"appCurriculos/home.html" ,{"publicacion":publicacion,"avatar":request.session.get('foto-avatar', 'none')})

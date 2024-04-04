@@ -1,6 +1,9 @@
 from django.urls import path
 from appCurriculos.views.views_other import *
 from appCurriculos.views.views_skills import *
+from appCurriculos.views.views_education import *
+from appCurriculos.views.views_idioma import *
+from appCurriculos.views.views_work_experiencie import *
 from django.contrib.auth.views import *
 
 urlpatterns = [
